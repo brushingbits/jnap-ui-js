@@ -1,0 +1,124 @@
+/*----- NotificationMessage -----*/
+
+.x-notification-msg-container {
+	height: auto;
+	overflow: hidden;
+	padding: 4px;
+	position: absolute;
+	width: auto;
+	z-index: 1001;
+	zoom: 1;
+
+	.x-notification-msg {
+		display: none;
+		margin: 0px 4px 10px 4px;
+		@include shadow(0px, 0px, 2px, #AFAFAF);
+		@include opacity(0.95);
+	}
+}
+
+.x-notification-msg {
+	font-size: 11px;
+	font-weight: bold;
+	margin: 4px 0;
+	overflow: hidden;
+	padding: 6px 10px 6px 10px;
+	@include border-radius(3px);
+
+	h3 {
+		display: block;
+		float: left;
+		font-size: 12px;
+		margin-bottom: 4px;
+		padding: 0 20px 4px 10px;
+		width: 90%;
+	}
+
+	p {
+		float: left;
+		padding: 0 20px 0 10px;
+		width: 90%;
+	}
+
+	.x-notification-msg-icon {
+		display: block;
+		float: left;
+		height: 16px;
+		width: 16px;
+	}
+
+	.x-notification-msg-close {
+		background: url(../images/$theme-base/messagebox/close.png) 0 0 no-repeat;
+		cursor: pointer;
+		display: block;
+		float: right;
+		height: 12px;
+		margin-top: 0px;
+		width: 12px;
+		@include opacity(0.7);
+	}
+	
+	.x-notification-msg-close-hover {
+		@include opacity(1);
+	}
+}
+
+
+.x-notification-msg.x-notification-msg-clear {
+	background-color: #F8F8F8;
+	border: 1px solid #6F6F6F;
+	color: #363636;
+}
+
+.x-notification-msg.x-notification-msg-dark {
+	background-color: #2F2F2F;
+	border: 1px solid #000000;
+	color: #FDFDFD;
+}
+
+.x-notification-msg.x-notification-msg-error {
+	background-color: #FFE1DF;
+	border: 1px solid #EF9B95;
+	color: #88191A;
+
+	.x-notification-msg-icon {
+		@include icon-error;
+		background: transparent url(../images/$theme-base/shared/icons-general.png) no-repeat 0 -32px;
+	}
+}
+
+
+.x-notification-msg.x-notification-msg-success {
+	background-color: #edfbd8;
+	border: 1px solid #A3CF4D;
+	color: #3B5F06;
+
+	.x-notification-msg-icon {
+		@include icon-success;
+		background: transparent url(../images/$theme-base/shared/icons-general.png) no-repeat 0 -64px;
+	}
+}
+
+
+.x-notification-msg.x-notification-msg-info {
+	background-color: #ECF9FF;
+	border: 1px solid #A4D8EF;
+	color: #1A3A8F;
+
+	.x-notification-msg-icon {
+		@include icon-info;
+		background: transparent url(../images/$theme-base/shared/icons-general.png) no-repeat 0 -80px;
+	}
+}
+
+
+.x-notification-msg.x-notification-msg-warning {
+	background-color: #fefde2;
+	border: 1px solid #e5e181;
+	color: #5F5B00;
+
+	.x-notification-msg-icon {
+		@include icon-warning;
+		background: transparent url(../images/$theme-base/shared/icons-general.png) no-repeat 0 -112px;
+	}
+}
