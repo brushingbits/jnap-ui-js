@@ -1,4 +1,9 @@
 
+@mixin border-radius($radius: 4px) {
+	border-radius: $radius;
+	-moz-border-radius: $radius;
+	-webkit-border-radius: $radius;
+}
 
 @mixin shadow($hoffset: 0px, $voffset: 0px, $size: 2px, $color: #5F5F5F) {
 	box-shadow: $hoffset $voffset $size $color;
@@ -8,4 +13,10 @@
 
 @mixin default-shadow($size: 2px, $color: #5F5F5F) {
 	@include shadow(0px, 0px, $size, $color);
+}
+
+@mixin opacity($value) {
+	opacity: $value;
+	-moz-opacity: $value;
+	filter: alpha(opacity=($value * 100));
 }

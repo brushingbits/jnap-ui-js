@@ -1,5 +1,12 @@
 
 $theme-name: 'jnap-azure';
-$theme-main-color: #00A4E4;
+$theme-primary-color: #00a4e4;
+$theme-secondary-color: $theme-primary-color + #4f4f4f;
+$theme-tertiary-color: $theme-primary-color - #4f4f4f;
+$theme-invalid-color: #a81111;
+$theme-border-color: #bfbfbf;
+$theme-default-text-color: #363636;
+$theme-dark-text-color: $theme-default-text-color - #3F3F3F;
+$theme-light-text-color: $theme-default-text-color + #3F3F3F;
 
 @import "jnap";
