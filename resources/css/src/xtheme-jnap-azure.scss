@@ -6,7 +6,7 @@ $theme-tertiary-color: $theme-primary-color - #4f4f4f;
 $theme-invalid-color: #a81111;
 $theme-border-color: #bfbfbf;
 $theme-default-text-color: #363636;
-$theme-dark-text-color: $theme-default-text-color - #3F3F3F;
-$theme-light-text-color: $theme-default-text-color + #3F3F3F;
+$theme-dark-text-color: $theme-default-text-color - #3f3f3f;
+$theme-light-text-color: $theme-default-text-color + #3f3f3f;
 
 @import "jnap";

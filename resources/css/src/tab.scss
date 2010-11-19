@@ -1,0 +1,152 @@
+
+.x-tab-panel-header,.x-tab-panel-footer {
+	background-color: #fff;
+	border-color: $theme-border-color;
+	border-bottom: none;
+	overflow: hidden;
+	zoom: 1;
+}
+
+ul {
+	&.x-tab-strip-top {
+		background-color: #fff;
+		background-image: url(../images/#{$theme-name}/tabs/tab-strip-bg.png);
+		border-bottom-color: $theme-border-color;
+		padding-top: 4px;
+	}
+	&.x-tab-strip-bottom {
+		background-color: #fff;
+		background-image: url(../images/#{$theme-name}/tabs/tab-strip-bg.png);
+		border-top-color: $theme-border-color;
+	}
+}
+
+.x-tab-panel-header-plain .x-tab-strip-spacer,.x-tab-panel-footer-plain .x-tab-strip-spacer {
+	border: none;
+	background-color: #fff;
+	border-left: 1px solid $theme-border-color;
+	border-right: 1px solid $theme-border-color;
+}
+
+.x-tab-strip span.x-tab-strip-text {
+	color: $theme-default-text-color;
+	@include default-font-family;
+	font-size: $default-font-size + 1px;
+	line-height: 16px;
+	margin: 1px 4px 1px 4px;
+}
+
+.x-tab-strip-over span.x-tab-strip-text {
+	color: $theme-default-text-color;
+}
+
+.x-tab-strip-active span.x-tab-strip-text {
+	color: $theme-default-text-color;
+	font-weight: bold;
+}
+
+.x-tab-strip-disabled .x-tabs-text {
+	color: #aaaaaa;
+}
+
+.x-tab-strip-top {
+	.x-tab-right , .x-tab-left, .x-tab-strip-inner {
+		background-image:url(../images/#{$theme-name}/tabs/tabs-sprite.png);
+	}
+}
+
+.x-tab-strip-bottom {
+	.x-tab-right , .x-tab-left, .x-tab-strip-inner {
+		background-image:url(../images/#{$theme-name}/tabs/tabs-bottom-sprite.png);
+	}
+	.x-tab-right {
+		background: transparent no-repeat 0 -51px;
+		padding-left: 10px;
+	}
+	.x-tab-left {
+		background: transparent no-repeat right -351px;
+		padding-right: 10px;
+	}
+	.x-tab-strip-inner {
+		background: transparent repeat-x 0 -201px;
+	}
+	.x-tab-strip-over {
+		.x-tab-right {
+			background-position: left 0px;
+		}
+		.x-tab-left {
+			background-position: right -301px;
+		}
+		.x-tab-strip-inner {
+			background-position: 0 -151px;
+		}
+	}
+	.x-tab-strip-active {
+		.x-tab-right {
+			background-position: left -101px;
+		}
+		.x-tab-left {
+			background-position: right -301px;
+		}
+		.x-tab-strip-inner {
+			background-position: 0 -251px;
+		}
+	}
+}
+
+.x-tab-strip .x-tab-strip-closable a.x-tab-strip-close {
+	background-image: url(../images/#{$theme-name}/tabs/tab-close.png);
+	background-position: left top;
+	background-repeat: no-repeat;
+	height: 12px;
+	position: absolute;
+	right: 4px;
+	top: 4px;
+	width: 12px;
+	@include opacity(1);
+	&:hover {
+		background-image: url(../images/#{$theme-name}/tabs/tab-close.png);
+		background-position: left bottom;
+	}
+}
+
+.x-tab-strip-top .x-tab-strip-active .x-tab-right {
+	background-position: 0 -1px;
+}
+
+.x-tab-panel-body {
+	border-color: $theme-border-color;
+	background-color: #fff;
+}
+
+.x-tab-panel-body-top {
+	border-top: 0 none;
+}
+
+.x-tab-panel-body-bottom {
+	border-bottom: 0 none;
+}
+
+.x-tab-scroller-left {
+	background-image: url(../images/default/tabs/scroll-left.gif);
+	border-bottom-color: #8db2e3;
+}
+
+.x-tab-scroller-left-over {
+	background-position: 0 0;
+}
+
+.x-tab-scroller-left-disabled {
+	background-position: -18px 0;
+	cursor: default;
+	@include opacity(0.5);
+}
+
+.x-tab-scroller-right {
+	background-image: url(../images/default/tabs/scroll-right.gif);
+	border-bottom-color: #8db2e3;
+}
+
+.x-tab-panel-bbar .x-toolbar,.x-tab-panel-tbar .x-toolbar {
+	border-color: $theme-border-color;
+}

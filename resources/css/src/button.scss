@@ -2,7 +2,7 @@
 	@include default-font;
 	button {
 		@include default-font;
-		color: #363636;
+		color: $theme-default-text-color;
 	}
 	em {
 		font-style: normal;
@@ -403,7 +403,7 @@
 }
 
 .x-btn-group-header {
-	color: #363636;
+	color: $theme-default-text-color;
 	font-weight: bold;
 }
 
@@ -432,7 +432,7 @@
 }
 
 .x-toolbar {
-	border-color: #BFBFBF;
+	border-color: $theme-border-color;
 	background-color: #FDFDFD;
 	background-image: url(../images/#{$theme-name}/toolbar/bg.png);
 	padding: 0 2px 0 2px;
@@ -510,7 +510,7 @@
 }
 
 .x-paging-info {
-	color: #363636;
+	color: $theme-default-text-color;
 }
 
 .x-toolbar-more-icon {
