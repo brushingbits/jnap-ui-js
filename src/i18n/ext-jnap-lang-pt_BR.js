@@ -17,7 +17,7 @@
 
 	// CharactersLimitPlugin
 	if (_ns.form.CharactersLimitPlugin) {
-		_ns.form.CharactersLimitPlugin.prototype.text = 'Voc&ecirc; possui &lt;strong&gt;{0}&lt;/strong&gt; caracteres restantes';
+		_ns.form.CharactersLimitPlugin.prototype.text = 'Voc&ecirc; possui <strong>{0}</strong> caracteres restantes';
 	}
 
 	// FormUtils
