@@ -1,0 +1,138 @@
+
+.x-date-picker {
+	border-color: $theme-border-color;
+	background-color: #fff;
+}
+
+.x-date-middle,.x-date-left,.x-date-right {
+	background-image: url(../images/default/shared/hd-sprite.gif);
+	color: #fff;
+	@include font-config($default-font-size, bold);
+}
+
+.x-date-middle {
+	.x-btn .x-btn-text {
+		color: #fff;
+	}
+	.x-btn-mc em.x-btn-arrow {
+		background-image: url(../images/default/toolbar/btn-arrow-light.gif);
+	}
+}
+
+.x-date-right a {
+	background-image: url(../images/default/shared/right-btn.gif);
+}
+
+.x-date-left a {
+	background-image: url(../images/default/shared/left-btn.gif);
+}
+
+.x-date-inner {
+	th {
+		background-color: #fff;
+		background-image: url(../images/jnap-azure/shared/glass-bg.png);
+		border-bottom-color: $theme-border-color;
+		color: $theme-default-text-color;
+		@include font-config($default-font-size - 1px, normal);
+	}
+	td {
+		border-color: #fff;
+	}
+	a {
+		color: #000;
+		@include default-font;
+	}
+	.x-date-active {
+		color: #000;
+	}
+	.x-date-selected a {
+		background-color: $theme-secondary-color;
+		background-image: url(../images/jnap-azure/shared/color-gradient-bg.png);
+		border: 1px solid $theme-primary-color;
+	}
+	.x-date-today a {
+		border: 1px dashed $theme-primary-color;
+	}
+	.x-date-selected span {
+		font-weight: bold;
+	}
+	.x-date-prevday a,.x-date-nextday a {
+		color: #aaa;
+	}
+}
+
+.x-date-bottom {
+	border-top-color: $theme-border-color;
+	background-color: #ECECEC;
+	background-image: url(../images/jnap-azure/shared/glass-bg.png);
+	button {
+		font-weight: bold;
+	}
+}
+
+.x-date-inner {
+	a:hover { 
+		color: #000;
+		background-color: $theme-secondary-color;
+	}
+	.x-date-disabled a {
+		background-color: #eee;
+		color: #bbb;
+		&:hover {
+			color:#000;
+			background-color: $theme-secondary-color;
+		}
+	}
+}
+
+.x-date-mmenu {
+	background-color: #eee !important;
+	.x-menu-item {
+		font-size: 10px;
+		color: #000;
+	}
+}
+
+.x-date-mp {
+	background-color: #fff;
+	td {
+		@include default-font;
+	}
+}
+
+.x-date-mp-btns {
+	background-color: #FBFBFB ;
+	background-image: url (../images/jnap-azure/shared/glass-bg.png );
+	button {
+		background-color: #DFDFDF;
+		border-color: #8F8F8F #6F6F6F #6F6F6F #8F8F8F;
+		color: $theme-default-text-color;
+		@include font-config(@default-font-size, bold);
+	}
+	td {
+		border-top-color: $theme-border-color;
+	}
+}
+
+td {
+	&.x-date-mp-month a, &.x-date-mp-year a {
+		color: $theme-default-text-color;
+	}
+	&.x-date-mp-month a:hover, &.x-date-mp-year a:hover {
+		background-color: $theme-secondary-color;
+		color: #000;
+	}
+	&.x-date-mp-sel a {
+		background-color: $theme-secondary-color;
+		background-image: url(../images/jnap-azure/shared/color-gradient-bg.png);
+		border-color: $theme-primary-color;
+	}
+}
+
+.x-date-mp-ybtn a {
+	background-image: url(../images/jnap-azure/panel/tool-sprites.png);
+}
+
+td.x-date-mp-sep {
+	border-right-color: #c5d2df;
+}
