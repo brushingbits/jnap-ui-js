@@ -1,0 +1,35 @@
+.x-combo-list {
+	background-color: $theme-secondary-color;
+	border-color: $theme-primary-color;
+	@include default-font;
+}
+
+.x-combo-list-inner {
+	background-color: #fff;
+}
+
+.x-combo-list-hd {
+	background-image: url(../images/default/layout/panel-title-light-bg.gif);
+	border-bottom-color: $theme-primary-color;
+	color: $theme-tertiary-color;
+	@include font-config($default-font-size, bold);
+}
+
+
+.x-combo-list-item {
+	border-color: #fff;
+}
+
+.x-combo-list {
+	.x-combo-selected {
+		border-color: $theme-secondary-color; !important;
+		background-color: #f7f7f7;
+	}
+	.x-toolbar {
+		border-top-color: $theme-primary-color;
+	}
+}
+
+.x-combo-list-small {
+	@include default-font;
+}
