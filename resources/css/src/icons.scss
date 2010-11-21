@@ -1,0 +1,20 @@
+
+@mixin icon-general($x, $y) {
+	background: transparent url(../images/#{$theme-base}/shared/icons-general.png) no-repeat $x $y;
+}
+
+@mixin icon-error-16 {
+	@include icon-general(0, -32px);
+}
+
+@mixin icon-info-16 {
+	@include icon-general(0, -80px);
+}
+
+@mixin icon-success-16 {
+	@include icon-general(0, -64px);
+}
+
+@mixin icon-warning-16 {
+	@include icon-general(0, -112px);
+}

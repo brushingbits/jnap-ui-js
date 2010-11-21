@@ -1,0 +1,85 @@
+.x-menu {
+	background-color: #FAFAFA;
+}
+
+.x-menu-floating {
+	border-color: $theme-border-color;
+}
+
+.x-menu-nosep {
+	background-image: none;
+}
+
+.x-menu-list-item {
+	@include default-font;
+}
+
+.x-menu-item-arrow {
+	background-image: url(../images/default/menu/menu-parent.gif);
+}
+
+.x-menu-sep {
+	background-color: $theme-border-color;
+	border-bottom-color: #fff;
+}
+
+a.x-menu-item {
+	color: #222;
+}
+
+.x-menu-item-active {
+	background-color: $theme-secondary-color;
+	border-color: $theme-primary-color;
+	border-width: 1px;
+	@include border-radius(2px);
+	a.x-menu-item {
+		border:	none;
+	}
+}
+
+.x-menu-item-checked a.x-menu-item {
+	border: none;
+}
+
+.x-menu-check-item .x-menu-item-icon {
+	background-image: url(../images/default/menu/unchecked.gif);
+}
+
+.x-menu-item-checked {
+	.x-menu-item-icon {
+		background-image: url(../images/default/menu/checked.gif);
+	}
+	.x-menu-group-item .x-menu-item-icon {
+		background-image: url(../images/default/menu/group-checked.gif);
+	}
+}
+
+.x-menu-group-item .x-menu-item-icon {
+	background-image: none;
+}
+
+.x-menu-plain {
+	background-color: #f0f0f0 !important;
+	background-image: none;
+}
+
+.x-date-menu,.x-color-menu {
+	background-color: #fff !important;
+}
+
+.x-menu .x-date-picker {
+	border-color: $theme-border-color;
+}
+
+.x-cycle-menu .x-menu-item-checked {
+	border: 1px dashed $theme-primary-color !important;
+	background-color: $theme-secondary-color;
+}
+
+.x-menu-scroller-top {
+	background-image: url(../images/default/layout/mini-top.gif);
+}
+
+.x-menu-scroller-bottom {
+	background-image: url(../images/default/layout/mini-bottom.gif);
+}

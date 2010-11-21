@@ -1,0 +1,63 @@
+.x-box-tl {
+	background-image: url(../images/default/box/corners.gif);
+}
+
+.x-box-tc {
+	background-image: url(../images/default/box/tb.gif);
+}
+
+.x-box-tr {
+	background-image: url(../images/default/box/corners.gif);
+}
+
+.x-box-ml {
+	background-image: url(../images/default/box/l.gif);
+}
+
+.x-box-mc {
+	background-color: #eee;
+	background-image: url(../images/default/box/tb.gif);
+	color: #393939;
+	@include default-font;
+	h3 {
+		@include font-config($default-font-size + 1px, bold);
+	}
+}
+
+.x-box-mr {
+	background-image: url(../images/default/box/r.gif);
+}
+
+.x-box-bl {
+	background-image: url(../images/default/box/corners.gif);
+}
+
+.x-box-bc {
+	background-image: url(../images/default/box/tb.gif);
+}
+
+.x-box-br {
+	background-image: url(../images/default/box/corners.gif);
+}
+
+// .x-box-blue kept for compability, .x-box-theme is the semantically correct way
+.x-box-blue, .x-box-theme {
+	.x-box-bl , .x-box-br, .x-box-tl, .x-box-tr {
+		background-image:url(../images/default/box/corners-blue.gif);
+	}
+	.x-box-bc,.x-box-mc,.x-box-tc {
+		background-image: url(../images/default/box/tb-blue.gif);
+	}
+	.x-box-mc {
+		background-color: $theme-secondary-color;
+		h3 {
+			color: $theme-tertiary-color;
+		}
+	}
+	.x-box-ml {
+		background-image: url(../images/default/box/l-blue.gif);
+	}
+	.x-box-mr {
+		background-image: url(../images/default/box/r-blue.gif);
+	}
+}

@@ -1,0 +1,25 @@
+
+.x-window-dlg {
+	.ext-mb-text, .x-window-header-text {
+		@include default-font-family;
+		font-size: $default-font-size + 1px;
+	}
+	.ext-mb-textarea {
+		@include default-font;
+	}
+	.x-msg-box-wait {
+		background-image: url(../images/default/grid/loading.gif);
+	}
+	.ext-mb-info {
+		background-image: url(../images/jnap-azure/window/icon-info.png);
+	}
+	.ext-mb-warning {
+		background-image: url(../images/jnap-azure/window/icon-warning.gif);
+	}
+	.ext-mb-question {
+		background-image: url(../images/jnap-azure/window/icon-question.gif);
+	}
+	.ext-mb-error {
+		background-image: url(../images/jnap-azure/window/icon-error.gif);
+	}
+}

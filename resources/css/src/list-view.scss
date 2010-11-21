@@ -1,0 +1,39 @@
+
+.x-list-header {
+	background-color: #f9f9f9;
+	background-image: url(../images/default/grid/grid3-hrow.gif);
+}
+
+.x-list-header-inner div em {
+	border-left-color: #ddd;
+	@include default-font;
+}
+
+.x-list-body dt em {
+	@include default-font;
+}
+
+.x-list-over {
+	background-color: #eee;
+}
+
+.x-list-selected {
+	background-color: #F7F7F7;
+}
+
+.x-list-resizer {
+	border-left-color: #555;
+	border-right-color: #555;
+}
+
+.x-list-header-inner em {
+	&.sort-asc , &.sort-desc {
+		background-image: url(../images/default/grid/sort-hd.gif);
+		border-color: #CDCDCD;
+	}
+}
+
+.x-view-selector {
+	background-color: #c3daf9;
+	border-color: #3399bb;
+}

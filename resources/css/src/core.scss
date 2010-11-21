@@ -1,0 +1,72 @@
+.ext-el-mask {
+	background-color: #2f2f2f;
+}
+
+.ext-el-mask-msg {
+	background-color: #DCDCDC;
+	background-image: url(../images/jnap-azure/box/tb.gif);
+	border-color: #868686;
+	div {
+		background-color: #fff;
+		border-color: #868686;
+		color: #222;
+		@include default-font;
+	}
+}
+
+.x-mask-loading div {
+	background-color: #fbfbfb;
+	background-image: url(../images/jnap-azure/shared/loading.gif);
+}
+
+.x-item-disabled {
+	color: #3f3f3f;
+	* {
+		color: #3f3f3f !important;
+	}
+}
+
+.x-splitbar-proxy {
+	background-color: #aaa;
+}
+
+.x-color-palette {
+	a {
+		border-color: #fff;
+		&:hover , &.x-color-palette-sel {
+			background-color: #deecfd;
+			border-color: #8bb8f3;
+		}
+	}
+	em:hover,span:hover {
+		background-color: #deecfd;
+	}
+	em {
+		border-color: #aca899;
+	}
+}
+
+.x-ie-shadow {
+	background-color: #777;
+}
+
+.x-shadow {
+	.xsmc {
+		background-image: url(../images/default/shadow-c.png);
+	}
+	.xsml,.xsmr {
+		background-image: url(../images/default/shadow-lr.png);
+	}
+	.xstl,.xstc,.xstr,.xsbl,.xsbc,.xsbr {
+		background-image: url(../images/default/shadow.png);
+	}
+}
+
+.loading-indicator {
+	font-size: $default-font-size;
+	background-image: url(../images/jnap-azure/shared/loading.gif);
+}
+
+.x-spotlight {
+	background-color: #ccc;
+}

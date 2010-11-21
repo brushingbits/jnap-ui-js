@@ -108,3 +108,11 @@
 		@include default-font;
 	}
 }
+
+.x-accordion-hd {
+	background: white url(../images/jnap-azure/tabs/tab-strip-bg.png) repeat-x left top;
+	color: $theme-default-text-color;
+	font-weight: normal;
+	line-height: 20px;
+	@include border-radius(0px);
+}

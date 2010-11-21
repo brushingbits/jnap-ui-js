@@ -1,0 +1,270 @@
+.x-grid-panel .x-panel-mc .x-panel-body {
+	border-color: $theme-border-color;
+}
+
+.x-grid3-row td,.x-grid3-summary-row td {
+	font: normal 11px/13px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-grid3-hd-row td {
+	font: normal 11px/15px arial, tahoma, helvetica, sans-serif;
+	border-left-color: #eee;
+	border-right-color: #d0d0d0;
+}
+
+.x-grid-row-loading {
+	background-color: #fff;
+	background-image: url(../images/jnap-azure/shared/loading-balls.gif);
+}
+
+.x-grid3-row {
+	border-color: #ededed;
+	border-top-color: #fff;
+}
+
+.x-grid3-row-alt {
+	background-color: #fafafa;
+}
+
+.x-grid3-row-over {
+	border-color: #00a4e4;
+	background-color: #c7e5f7;
+	background-image: url(../images/jnap-azure/shared/color-gradient-bg.png);
+}
+
+.x-grid3-resize-proxy,.x-grid3-resize-marker {
+	background-color: #777;
+}
+
+.x-grid3-header {
+	background-color: #f9f9f9;
+	background-image: url(../images/default/grid/grid3-hrow.gif);
+}
+
+.x-grid3-header-pop {
+	border-left-color: #d0d0d0;
+}
+
+.x-grid3-header-pop-inner {
+	border-left-color: #eee;
+	background-image: url(../images/default/grid/hd-pop.gif);
+}
+
+td {
+	&.x-grid3-hd-over, &.sort-desc, &.sort-asc, &.x-grid3-hd-menu-open {
+		border-left-color:#aaccf6;
+		border-right-color: #aaccf6;
+	}
+	&.x-grid3-hd-over .x-grid3-hd-inner, &.sort-desc .x-grid3-hd-inner, &.sort-asc .x-grid3-hd-inner,
+	&.x-grid3-hd-menu-open .x-grid3-hd-inner {
+		background-color: #ebf3fd;
+		background-image: url(../images/default/grid/grid3-hrow-over.gif);
+	}
+}
+
+.sort-asc .x-grid3-sort-icon {
+	background-image: url(../images/default/grid/sort_asc.gif);
+}
+
+.sort-desc .x-grid3-sort-icon {
+	background-image: url(../images/default/grid/sort_desc.gif);
+}
+
+.x-grid3-cell-text,.x-grid3-hd-text {
+	color: #000;
+}
+
+.x-grid3-split {
+	background-image: url(../images/default/grid/grid-split.gif);
+}
+
+.x-grid3-hd-text {
+	color: #15428b;
+}
+
+.x-dd-drag-proxy .x-grid3-hd-inner {
+	background-color: #ebf3fd;
+	background-image: url(../images/default/grid/grid3-hrow-over.gif);
+	border-color: #aaccf6;
+}
+
+.col-move-top {
+	background-image: url(../images/default/grid/col-move-top.gif);
+}
+
+.col-move-bottom {
+	background-image: url(../images/default/grid/col-move-bottom.gif);
+}
+
+.x-grid3-row-selected {
+	background-color: #DAF1FF !important;
+	/* themevar light color */
+	background-image: none;
+	border-color: #DAF1FF;
+	/* themevar light color */
+	border-style: solid;
+}
+
+.x-grid3-cell-selected {
+	background-color: #b8cfee !important;
+	color: #000;
+	span {
+		color: #000 !important;
+	}
+	.x-grid3-cell-text {
+		color: #000;
+	}
+}
+
+.x-grid3-locked {
+	td .x-grid3-row-marker, .x-grid3-row-selected td.x-grid3-row-marker {
+		background-color: #ebeadb !important;
+		background-image: url(../images/default/grid/grid-hrow.gif) !important;
+		color: #000;
+		border-top-color: #fff;
+		border-right-color: #6fa0df !important;
+	}
+	td.x-grid3-row-marker div,.x-grid3-row-selected td.x-grid3-row-marker div {
+		color: #15428b !important;
+	}
+}
+
+.x-grid3-dirty-cell {
+	background-image: url(../images/default/grid/dirty.gif);
+}
+
+.x-grid3-topbar {
+	font: normal 11px arial, tahoma, helvetica, sans-serif;
+}
+
+.x-grid3-bottombar {
+	font: normal 11px arial, tahoma, helvetica, sans-serif;
+	.x-toolbar {
+		border-top-color: #BFBFBF;
+	}
+}
+
+.x-props-grid {
+	.x-grid3-td-name .x-grid3-cell-inner {
+		background-image: url(../images/default/grid/grid3-special-col-bg.gif) !important;
+		color: #000 !important;
+	}
+	.x-grid3-body .x-grid3-td-name {
+		background-color: #fff !important;
+		border-right-color: #eee;
+	}
+}
+
+.xg-hmenu-sort-asc .x-menu-item-icon {
+	background: transparent url(../images/jnap-azure/shared/icons-general.png) no-repeat -304px 0;
+}
+
+.xg-hmenu-sort-desc .x-menu-item-icon {
+	background: transparent url(../images/jnap-azure/shared/icons-general.png) no-repeat -320px 0;
+}
+
+.xg-hmenu-lock .x-menu-item-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -192px 0;
+}
+
+.xg-hmenu-unlock .x-menu-item-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -208px 0;
+}
+
+.x-grid3-hd-btn {
+	background-color: #c3daf9;
+	background-image: url(../images/default/grid/grid3-hd-btn.gif);
+}
+
+.x-grid3-body .x-grid3-td-expander {
+	background-image: url(../images/default/grid/grid3-special-col-bg.gif);
+}
+
+.x-grid3-row-expander {
+	background-image: url(../images/jnap-azure/shared/expand-collapse.png);
+}
+
+.x-grid3-row-expanded .x-grid3-row-expander {
+	background-position: 4px -46px;
+}
+
+.x-grid3-row-collapsed .x-grid3-row-expander {
+	background-position: 4px -16px;
+}
+
+.x-grid3-body .x-grid3-td-checker {
+	background-image: url(../images/default/grid/grid3-special-col-bg.gif);
+}
+
+.x-grid3-row-checker,.x-grid3-hd-checker {
+	background-image: url(../images/default/grid/row-check-sprite.gif);
+}
+
+.x-grid3-body {
+	.x-grid3-td-numberer {
+		background-image:url(../images/default/grid/grid3-special-col-bg.gif);
+		.x-grid3-cell-inner {
+			color:#444;
+		}
+	}
+	.x-grid3-td-row-icon {
+		background-image: url(../images/default/grid/grid3-special-col-bg.gif);
+	}
+	.x-grid3-row-selected {
+		.x-grid3-td-numberer , .x-grid3-td-checker,	.x-grid3-td-expander {
+			background-image: url(../images/default/grid/grid3-special-col-sel-bg.gif);
+		}
+	}
+}
+
+.x-grid3-check-col {
+	background-image: url(../images/default/menu/unchecked.gif);
+}
+
+.x-grid3-check-col-on {
+	background-image: url(../images/default/menu/checked.gif);
+}
+
+.x-grid-group,.x-grid-group-body {
+	zoom: 1;
+}
+
+.x-grid-group-hd {
+	zoom: 1;
+	border-bottom-color: #CDCDCD;
+	div.x-grid-group-title {
+		background:	transparent url(../images/jnap-azure/shared/expand-collapse.png) no-repeat 4px -14px;
+		color: #363636;
+		font: bold 11px tahoma, arial, helvetica, sans-serif;
+	}
+}
+
+.x-grid-group-collapsed .x-grid-group-hd div.x-grid-group-title {
+	background: transparent	url(../images/jnap-azure/shared/expand-collapse.png) no-repeat 4px -44px;
+}
+
+.x-group-by-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -256px 0;
+}
+
+.x-cols-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -240px 0;
+}
+
+.x-show-groups-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -256px 0;
+}
+
+.x-grid-empty {
+	color: gray;
+	font: normal 11px tahoma, arial, helvetica, sans-serif;
+}
+
+.x-grid-with-col-lines {
+	.x-grid3-row td.x-grid3-cell {
+		border-right-color:#ededed;
+	}
+	.x-grid3-row-selected {
+		border-top-color: #a3bae9;
+	}
+}

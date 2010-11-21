@@ -1,0 +1,134 @@
+.x-tree-node-expanded .x-tree-node-icon {
+	background: transparent url(../images/jnap-azure/shared/icons-general.png) no-repeat -144px 0;
+}
+
+.x-tree-node-leaf .x-tree-node-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -176px 0;
+}
+
+.x-tree-node-collapsed .x-tree-node-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -128px 0;
+}
+
+.x-tree-node-loading .x-tree-node-icon {
+	background-image: url(../images/jnap-azure/shared/loading.gif) !important;
+}
+
+.x-tree-node .x-tree-node-inline-icon {
+	background-image: none;
+}
+
+.x-tree-node-loading a span {
+	font-style: italic;
+	color: #444444;
+}
+
+.x-tree-lines {
+	.x-tree-elbow {
+		background-image: url(../images/default/tree/elbow.gif);
+	}
+	.x-tree-elbow-plus {
+		background-image: url(../images/default/tree/elbow-plus.gif);
+	}
+	.x-tree-elbow-minus {
+		background-image: url(../images/default/tree/elbow-minus.gif);
+	}
+	.x-tree-elbow-end {
+		background-image: url(../images/default/tree/elbow-end.gif);
+	}
+	.x-tree-elbow-end-plus {
+		background-image: url(../images/default/tree/elbow-end-plus.gif);
+	}
+	.x-tree-elbow-end-minus {
+		background-image: url(../images/default/tree/elbow-end-minus.gif);
+	}
+	.x-tree-elbow-line {
+		background-image: url(../images/default/tree/elbow-line.gif);
+	}
+}
+
+.x-tree-no-lines {
+	.x-tree-elbow-plus {
+		background-image: url(../images/default/tree/elbow-plus-nl.gif);
+	}
+	.x-tree-elbow-minus {
+		background-image: url(../images/default/tree/elbow-minus-nl.gif);
+	}
+	.x-tree-elbow-end-plus {
+		background-image: url(../images/default/tree/elbow-end-plus-nl.gif);
+	}
+	.x-tree-elbow-end-minus {
+		background-image: url(../images/default/tree/elbow-end-minus-nl.gif);
+	}
+}
+
+.x-tree-arrows {
+	.x-tree-elbow-plus , .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+		background-image:url(../images/default/tree/arrows.gif);
+	}
+}
+
+.x-tree-node {
+	color: $theme-default-text-color;
+	@include default-font;
+	a {
+		color: $theme-default-text-color;
+	}
+}
+
+.x-dd-drag-ghost a,.x-tree-node a span,.x-dd-drag-ghost a span {
+	color: #000;
+}
+
+.x-tree-node {
+	.x-tree-node-disabled a span {
+		color: gray!important;
+	}
+	div {
+		&.x-tree-drag-insert-below {
+			border-bottom-color: #36c;
+		}
+		&.x-tree-drag-insert-above {
+			border-top-color: #36c;
+		}
+	}
+}
+
+.x-tree-dd-underline .x-tree-node div {
+	&.x-tree-drag-insert-below a {
+		border-bottom-color: #36c;
+	}
+	&.x-tree-drag-insert-above a {
+		border-top-color: #36c;
+	}
+}
+
+.x-tree-node {
+	.x-tree-drag-append a span {
+		background-color: #ddd;
+		border-color: $theme-border-color;
+	}
+	.x-tree-node-over {
+		background-color: $theme-secondary-color;
+	}
+	.x-tree-selected {
+		background-color: $theme-secondary-color;
+		font-weight: bold;
+	}
+}
+
+.x-tree-drop-ok-append .x-dd-drop-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -16px 0;
+}
+
+.x-tree-drop-ok-above .x-dd-drop-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -64px 0;
+}
+
+.x-tree-drop-ok-below .x-dd-drop-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -80px 0;
+}
+
+.x-tree-drop-ok-between .x-dd-drop-icon {
+	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -32px 0;
+}
