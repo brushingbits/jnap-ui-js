@@ -1,8 +1,8 @@
 
 .x-window-dlg {
 	.ext-mb-text, .x-window-header-text {
+		font-size: $theme-default-font-size + 1px;
 		@include default-font-family;
-		font-size: $default-font-size + 1px;
 	}
 	.ext-mb-textarea {
 		@include default-font;
@@ -10,16 +10,24 @@
 	.x-msg-box-wait {
 		background-image: url(../images/default/grid/loading.gif);
 	}
+	.ext-mb-info, .ext-mb-warning, .ext-mb-question, .ext-mb-info, .ext-mb-error, .ext-mb-success {
+		background-image: url(../images/#{$theme-base}/window/dialog-icons.png);
+		height: 32px;
+		width: 32px;
+	}
 	.ext-mb-info {
-		background-image: url(../images/jnap-azure/window/icon-info.png);
+		background-position: -96px 0;
 	}
 	.ext-mb-warning {
-		background-image: url(../images/jnap-azure/window/icon-warning.gif);
+		background-position: -64px 0;
 	}
 	.ext-mb-question {
-		background-image: url(../images/jnap-azure/window/icon-question.gif);
+		background-position: -128px 0;
 	}
 	.ext-mb-error {
-		background-image: url(../images/jnap-azure/window/icon-error.gif);
+		background-position: 0 0;
+	}
+	.ext-mb-success {
+		background-position: -32px 0;
 	}
 }

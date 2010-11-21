@@ -7,7 +7,7 @@
 .x-window-tl .x-window-header {
 	color: $theme-default-text-color;
 	line-height: 20px;
-	@include font-config($default-font-size + 1px, bold);
+	@include font-config($theme-default-font-size + 1px, bold);
 }
 
 .x-window-tc {
@@ -41,11 +41,11 @@
 }
 
 .x-window-ml {
-	background-image: url(../images/jnap-azure/window/left-right.png);
+	background-image: url(../images/#{$theme-base}/window/left-right.png);
 }
 
 .x-window-mr {
-	background-image: url(../images/jnap-azure/window/left-right.png);
+	background-image: url(../images/#{$theme-base}/window/left-right.png);
 }
 
 .x-window-maximized .x-window-tc {
@@ -69,7 +69,7 @@
 }
 
 .x-window-plain .x-window-mc {
-	border-color: #a3bae9 #F7F7F7 #F7F7F7 #a3bae9;
+	border-color: $theme-border-color #f7f7f7 #f7f7f7 $theme-border-color;
 }
 
 .x-window-plain .x-window-body {
@@ -78,5 +78,5 @@
 }
 
 body.x-body-masked .x-window-plain .x-window-mc {
-	background-color: #ccd9e8;
+	background-color: #dfdfdf;
 }
