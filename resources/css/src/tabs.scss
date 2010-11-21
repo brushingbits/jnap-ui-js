@@ -10,13 +10,13 @@
 ul {
 	&.x-tab-strip-top {
 		background-color: #fff;
-		background-image: url(../images/#{$theme-name}/tabs/tab-strip-bg.png);
+		background-image: url(../images/#{$theme-base}/tabs/tab-strip-bg.png);
 		border-bottom-color: $theme-border-color;
 		padding-top: 4px;
 	}
 	&.x-tab-strip-bottom {
 		background-color: #fff;
-		background-image: url(../images/#{$theme-name}/tabs/tab-strip-bg.png);
+		background-image: url(../images/#{$theme-base}/tabs/tab-strip-bg.png);
 		border-top-color: $theme-border-color;
 	}
 }
@@ -31,7 +31,7 @@ ul {
 .x-tab-strip span.x-tab-strip-text {
 	color: $theme-default-text-color;
 	@include default-font-family;
-	font-size: $default-font-size + 1px;
+	font-size: $theme-default-font-size + 1px;
 	line-height: 16px;
 	margin: 1px 4px 1px 4px;
 }
