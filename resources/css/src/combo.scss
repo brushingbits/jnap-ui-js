@@ -1,6 +1,6 @@
 .x-combo-list {
-	background-color: $theme-secondary-color;
-	border-color: $theme-primary-color;
+	background-color: $theme-light-color;
+	border-color: darken($theme-border-color, 20%);
 	@include default-font;
 }
 
@@ -10,9 +10,9 @@
 
 .x-combo-list-hd {
 	background-image: url(../images/default/layout/panel-title-light-bg.gif);
-	border-bottom-color: $theme-primary-color;
-	color: $theme-tertiary-color;
-	@include font-config($default-font-size, bold);
+	border-bottom-color: $theme-main-color;
+	color: $theme-dark-color;
+	@include font-config($theme-default-font-size, bold);
 }
 
 
@@ -22,11 +22,11 @@
 
 .x-combo-list {
 	.x-combo-selected {
-		border-color: $theme-secondary-color; !important;
-		background-color: #f7f7f7;
+		border-color: $theme-main-color !important;
+		background-color: $theme-light-color;
 	}
 	.x-toolbar {
-		border-top-color: $theme-primary-color;
+		border-top-color: $theme-main-color;
 	}
 }
 

@@ -1,23 +1,30 @@
+/*
+ *
+ */
+
+// theme form variables
+$theme-form-text-focus-glow-color: darken($theme-light-color, 40%) !default;
+$theme-form-text-invalid-focus-glow-color: lighten($theme-invalid-color, 10%) !default;
 
 .x-form-field {
 	@include default-font;
 }
 
-.x-form-text,textarea.x-form-field {
+.x-form-text, textarea.x-form-field {
 	background-color: #fff;
-	background-image: url(../images/jnap-azure/form/text-bg.png);
-	border-color: #BFBFBF;
-	border-top-color: #6F6F6F;
+	background-image: url(../images/#{$theme-base}/form/text-bg.png);
+	border-color: $theme-border-color;
+	border-top-color: darken($theme-border-color, 30%);
 }
 
 .x-form-select-one {
 	background-color: #EFEFEF;
-	border-color: #BFBFBF;
+	border-color: $theme-border-color;
 }
 
 .x-form-check-group-label {
-	border-bottom: 1px solid #CDCDCD;
-	color: #15428b;
+	border-bottom: 1px solid $theme-border-color;
+	color: $theme-dark-color;
 }
 
 .x-editor .x-form-check-wrap {
@@ -25,45 +32,45 @@
 }
 
 .x-form-field-wrap .x-form-trigger {
-	background-image: url(../images/default/form/trigger.gif);
-	border-bottom-color: #CDCDCD;
+	background-image: url(../images/#{$theme-name}/form/trigger.png);
+	border-bottom-color: $theme-border-color;
 }
 
 .x-trigger-wrap-focus {
 	.x-form-trigger, .x-form-trigger-over {
-		@include shadow(0px, 0px, 3px, $theme-primary-color);
+		@include shadow(0px, 0px, 3px, $theme-form-text-focus-glow-color);
 	}
 }
 
 .x-form-field-wrap {
 	.x-form-date-trigger {
-		background-image: url(../images/default/form/date-trigger.gif);
+		background-image: url(../images/#{$theme-name}/form/trigger-date.png);
 	}
 	.x-form-clear-trigger {
-		background-image: url(../images/default/form/clear-trigger.gif);
+		background-image: url(../images/#{$theme-name}/form/trigger-clear.png);
 	}
 	.x-form-search-trigger {
-		background-image: url(../images/default/form/search-trigger.gif);
+		background-image: url(../images/#{$theme-name}/form/trigger-search.png);
 	}
 }
 
 .x-trigger-wrap-focus .x-form-trigger {
-	border-bottom-color: $theme-primary-color;
+	border-bottom-color: $theme-main-color;
 }
 
 .x-item-disabled {
 	.x-form-trigger-over, .x-form-trigger-click {
-		border-bottom-color: #b5b8c8;
+		border-bottom-color: lighten($theme-border-color, 5%);
 	}
 }
 
-.x-form-focus,textarea.x-form-focus {
-	border-color: $theme-primary-color;
-	@include shadow(0px, 0px, 3px, $theme-primary-color);
+.x-form-focus, textarea.x-form-focus {
+	border-color: $theme-main-color;
+	@include shadow(0px, 0px, 3px, $theme-form-text-focus-glow-color);
 }
 
 .x-form-invalid {
-	background-image: url(../images/jnap-azure/form/text-invalid-bg.png);
+	background-image: url(../images/#{$theme-base}/form/text-invalid-bg.png);
 	background-position: top left;
 	border-color: $theme-invalid-color;
 }
@@ -75,22 +82,32 @@ textarea.x-form-invalid {
 
 .x-form-invalid {
 	&.x-form-focus {
-		@include shadow(0px, 0px, 3px, $theme-invalid-color);
+		@include shadow(0px, 0px, 3px, $theme-form-text-invalid-focus-glow-color);
 	}
 	&.x-form-composite {
 		border: none;
 		background-image: none;
 		.x-form-invalid {
 			background-color : #fff;
-			background-image: url(../images/default/grid/invalid_line.gif);
+			background-image: url(../images/#{$theme-base}/form/text-invalid-bg.png);
+			background-position: top left;
 			border-color: $theme-invalid-color;
 		}
 	}
 }
 
-.x-form-inner-invalid,textarea.x-form-inner-invalid {
-	background-color: #fff;
-	background-image: url(../images/default/grid/invalid_line.gif);
+.x-form-inner-invalid {
+	background-image: url(../images/#{$theme-base}/form/text-invalid-bg.png);
+	background-position: top left;
+}
+
+.x-form-invalid-tip {
+	.x-tip-tc , .x-tip-tl, .x-tip-tr, .x-tip-bc, .x-tip-bl, .x-tip-br, .x-tip-ml, .x-tip-mr {
+		background-image: url(../images/default/form/error-tip-corners.gif);
+	}
+	.x-tip-body {
+		@include icon-invalid-16;
+	}
 }
 
 .x-form-grow-sizer {
@@ -101,13 +118,13 @@ textarea.x-form-invalid {
 	@include default-font;
 	label {
 		font-weight: bold;
-		color: $theme-default-text-color + #0f0f0f;
+		color: lighten($theme-default-text-color, 5%);
 	}
 }
 
 .x-form-invalid-msg {
-	color: #c0272b;
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat 0 -48px;
+	color: $theme-invalid-color;
+	@include icon-invalid-16;
 	@include default-font;
 }
 
@@ -120,13 +137,13 @@ textarea.x-form-invalid {
 }
 
 .x-form-invalid-icon {
-	width: 16px;
 	height: 16px;
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat 0 -48px;
+	width: 16px;
+	@include icon-invalid-16;
 }
 
 .x-fieldset {
-	background-color: #FAFAFA;
+	background-color: #fafafa;
 	border-color: $theme-border-color;
 	@include border-radius(4px);
 }
@@ -134,13 +151,13 @@ textarea.x-form-invalid {
 .x-fieldset legend {
 	@include default-font;
 	font-weight: bold;
-	color: $theme-tertiary-color;
+	color: $theme-dark-color;
 }
 
 .x-field-required {
 	font-weight: bold;
 	padding: 0 4px;
-	color: $theme-primary-color;
+	color: $theme-main-color;
 }
 
 .x-field-hint {
