@@ -9,7 +9,7 @@
 .x-grid3-hd-row td {
 	font: normal 11px/15px arial, tahoma, helvetica, sans-serif;
 	border-left-color: #eee;
-	border-right-color: #d0d0d0;
+	border-right-color: $theme-border-color;
 }
 
 .x-grid-row-loading {
@@ -29,7 +29,7 @@
 .x-grid3-row-over {
 	border-color: $theme-main-color;
 	background-color: $theme-light-color;
-	background-image: url(../images/jnap-azure/shared/color-gradient-bg.png);
+	background-image: url(../images/#{theme-name}/shared/color-gradient-bg.png);
 }
 
 .x-grid3-resize-proxy,.x-grid3-resize-marker {
@@ -38,7 +38,7 @@
 
 .x-grid3-header {
 	background-color: #f9f9f9;
-	background-image: url(../images/default/grid/grid3-hrow.gif);
+	background-image: url(../images/#{$theme-base}/grid/grid-hrow.png);
 }
 
 .x-grid3-header-pop {
@@ -58,7 +58,7 @@ td {
 	&.x-grid3-hd-over .x-grid3-hd-inner, &.sort-desc .x-grid3-hd-inner, &.sort-asc .x-grid3-hd-inner,
 	&.x-grid3-hd-menu-open .x-grid3-hd-inner {
 		background-color: $theme-light-color;
-		background-image: url(../images/default/grid/grid3-hrow-over.gif);
+		background-image: url(../images/#{$theme-name}/grid/grid-hrow-over.png);
 	}
 }
 
@@ -83,9 +83,9 @@ td {
 }
 
 .x-dd-drag-proxy .x-grid3-hd-inner {
-	background-color: lighten($theme-light-color, 20%);
-	background-image: url(../images/default/grid/grid3-hrow-over.gif);
-	border-color: lighten($theme-main-color, 20%);
+	background-color: $theme-light-color;
+	background-image: url(../images/#{$theme-name}/grid/grid-hrow-over.png);
+	border-color: $theme-main-color;
 }
 
 .col-move-top {
@@ -117,10 +117,10 @@ td {
 .x-grid3-locked {
 	td .x-grid3-row-marker, .x-grid3-row-selected td.x-grid3-row-marker {
 		background-color: #efefef !important;
-		background-image: url(../images/default/grid/grid-hrow.gif) !important;
+		background-image: url(../images/#{theme-base}/grid/grid-hrow.png) !important;
 		color: #000;
 		border-top-color: #fff;
-		border-right-color: $theme-main-color !important;
+		border-right-color: $theme-light-color !important;
 	}
 	td.x-grid3-row-marker div,.x-grid3-row-selected td.x-grid3-row-marker div {
 		color: $theme-dark-color !important;
