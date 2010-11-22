@@ -6,8 +6,8 @@
 	background-image: url(../images/#{$theme-base}/panel/white-top-bottom.png);
 	border-color: $theme-border-color;
 	color: $theme-default-text-color;
-	font-family: $default-font-family;
-	font-size: $default-font-size + 1px;
+	font-family: $theme-default-font-family;
+	font-size: $theme-default-font-size + 1px;
 	font-weight: bold;
 	line-height: 20px;
 	@include border-radius-top(3px);
@@ -15,7 +15,7 @@
 
 .x-panel-btns {
 	button {
-		font-size: $default-font-size;
+		font-size: $theme-default-font-size;
 		font-weight: bold;
 	}
 	.x-btn .x-btn-text {
@@ -54,7 +54,7 @@
 
 .x-panel-tl .x-panel-header {
 	color: $theme-default-text-color;
-	font-size: $default-font-size + 1px;
+	font-size: $theme-default-font-size + 1px;
 	font-weight: bold;
 	line-height: 20px;
 	@include default-font-family;
@@ -110,7 +110,7 @@
 }
 
 .x-accordion-hd {
-	background: white url(../images/jnap-azure/tabs/tab-strip-bg.png) repeat-x left top;
+	background: white url(../images/#{$theme-base}/tabs/tab-strip-bg.png) repeat-x left top;
 	color: $theme-default-text-color;
 	font-weight: normal;
 	line-height: 20px;

@@ -30,11 +30,10 @@
 }
 
 .x-toolbar {
-	border-color: $theme-border-color;
 	background-color: #FDFDFD;
-	background-image: url(../images/#{$theme-name}/toolbar/bg.png);
+	background-image: url(../images/#{$theme-base}/toolbar/bg.png);
+	border-color: $theme-border-color;
 	padding: 0 2px 0 2px;
-	
 	td, span, input, div, select, label	{
 		@include default-font;
 	}
@@ -140,50 +139,55 @@
 		background-image: url(../images/default/button/s-arrow-bo.gif);
 	}
 	.xtb-sep {
-		background-image: url(../images/#{$theme-name}/grid/grid-split.png);
+		background-image: url(../images/#{$theme-base}/grid/grid-split.png);
 	}
 }
 
+@mixin grid-paging-icon($x, $y) {
+	background: transparent url(../images/#{$theme-name}/grid/icons-paging.png)	no-repeat $x $y !important;
+}
+
 .x-tbar-page-first {
-	background: transparent url(../images/#{$theme-name}/grid/icons-paging.png)	no-repeat 0 0 !important;
+	@include grid-paging-icon(0, 0);
 }
 
 .x-tbar-loading {
-	background: transparent url(../images/#{$theme-name}/grid/icons-paging.png)	no-repeat -64px 0 !important;
+	@include grid-paging-icon(-64px, 0);
 }
 
 .x-tbar-page-last {
-	background: transparent url(../images/#{$theme-name}/grid/icons-paging.png)	no-repeat -48px 0 !important;
+	@include grid-paging-icon(-48px, 0);
 }
 
 .x-tbar-page-next {
-	background: transparent url(../images/#{$theme-name}/grid/icons-paging.png)	no-repeat -32px 0 !important;
+	@include grid-paging-icon(-32px, 0);
 }
 
 .x-tbar-page-prev {
-	background: transparent url(../images/#{$theme-name}/grid/icons-paging.png)	no-repeat -16px 0 !important;
+	@include grid-paging-icon(-16px, 0);
 }
 
 .x-item-disabled {
 	.x-tbar-loading {
-		background:transparent url(../images/#{$theme-name}/grid/icons-paging.png) no-repeat -64px -16px !important;
+		@include grid-paging-icon(-64px, -16px);
 	}
 	.x-tbar-page-first {
-		background: transparent url(../images/#{$theme-name}/grid/icons-paging.png)	no-repeat 0 -16px !important;
+		@include grid-paging-icon(0, -16px);
 	}
 	.x-tbar-page-last {
-		background: transparent url(../images/#{$theme-name}/grid/icons-paging.png)	no-repeat -48px -16px !important;
+		@include grid-paging-icon(-48px, -16px);
 	}
 	.x-tbar-page-next {
-		background: transparent url(../images/#{$theme-name}/grid/icons-paging.png) no-repeat -32px -16px !important;
+		@include grid-paging-icon(-32px, -16px);
 	}
 	.x-tbar-page-prev {
-		background: transparent url(../images/#{$theme-name}/grid/icons-paging.png)	no-repeat -16px -16px !important;
+		@include grid-paging-icon(-16px, -16px);
 	}
 }
 
 .x-paging-info {
 	color: $theme-default-text-color;
+	font-weight: normal !important;
 }
 
 .x-toolbar-more-icon {

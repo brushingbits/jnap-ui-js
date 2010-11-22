@@ -14,7 +14,7 @@
 
 .x-grid-row-loading {
 	background-color: #fff;
-	background-image: url(../images/jnap-azure/shared/loading-balls.gif);
+	background-image: url(../images/#{$theme-name}/shared/loading-balls.gif);
 }
 
 .x-grid3-row {
@@ -27,8 +27,8 @@
 }
 
 .x-grid3-row-over {
-	border-color: #00a4e4;
-	background-color: #c7e5f7;
+	border-color: $theme-main-color;
+	background-color: $theme-light-color;
 	background-image: url(../images/jnap-azure/shared/color-gradient-bg.png);
 }
 
@@ -52,22 +52,22 @@
 
 td {
 	&.x-grid3-hd-over, &.sort-desc, &.sort-asc, &.x-grid3-hd-menu-open {
-		border-left-color:#aaccf6;
-		border-right-color: #aaccf6;
+		border-left-color: $theme-main-color;
+		border-right-color: $theme-main-color;
 	}
 	&.x-grid3-hd-over .x-grid3-hd-inner, &.sort-desc .x-grid3-hd-inner, &.sort-asc .x-grid3-hd-inner,
 	&.x-grid3-hd-menu-open .x-grid3-hd-inner {
-		background-color: #ebf3fd;
+		background-color: $theme-light-color;
 		background-image: url(../images/default/grid/grid3-hrow-over.gif);
 	}
 }
 
 .sort-asc .x-grid3-sort-icon {
-	background-image: url(../images/default/grid/sort_asc.gif);
+	@include icon-sort-asc-16;
 }
 
 .sort-desc .x-grid3-sort-icon {
-	background-image: url(../images/default/grid/sort_desc.gif);
+	@include icon-sort-desc-16;
 }
 
 .x-grid3-cell-text,.x-grid3-hd-text {
@@ -79,13 +79,13 @@ td {
 }
 
 .x-grid3-hd-text {
-	color: #15428b;
+	color: $theme-dark-color;
 }
 
 .x-dd-drag-proxy .x-grid3-hd-inner {
-	background-color: #ebf3fd;
+	background-color: lighten($theme-light-color, 20%);
 	background-image: url(../images/default/grid/grid3-hrow-over.gif);
-	border-color: #aaccf6;
+	border-color: lighten($theme-main-color, 20%);
 }
 
 .col-move-top {
@@ -97,16 +97,14 @@ td {
 }
 
 .x-grid3-row-selected {
-	background-color: #DAF1FF !important;
-	/* themevar light color */
+	background-color: $theme-light-color !important;
 	background-image: none;
-	border-color: #DAF1FF;
-	/* themevar light color */
+	border-color: $theme-light-color;
 	border-style: solid;
 }
 
 .x-grid3-cell-selected {
-	background-color: #b8cfee !important;
+	background-color: $theme-light-color !important;
 	color: #000;
 	span {
 		color: #000 !important;
@@ -118,14 +116,14 @@ td {
 
 .x-grid3-locked {
 	td .x-grid3-row-marker, .x-grid3-row-selected td.x-grid3-row-marker {
-		background-color: #ebeadb !important;
+		background-color: #efefef !important;
 		background-image: url(../images/default/grid/grid-hrow.gif) !important;
 		color: #000;
 		border-top-color: #fff;
-		border-right-color: #6fa0df !important;
+		border-right-color: $theme-main-color !important;
 	}
 	td.x-grid3-row-marker div,.x-grid3-row-selected td.x-grid3-row-marker div {
-		color: #15428b !important;
+		color: $theme-dark-color !important;
 	}
 }
 
@@ -134,13 +132,13 @@ td {
 }
 
 .x-grid3-topbar {
-	font: normal 11px arial, tahoma, helvetica, sans-serif;
+	@include default-font;
 }
 
 .x-grid3-bottombar {
-	font: normal 11px arial, tahoma, helvetica, sans-serif;
+	@include default-font;
 	.x-toolbar {
-		border-top-color: #BFBFBF;
+		border-top-color: $theme-border-color;
 	}
 }
 
@@ -156,23 +154,23 @@ td {
 }
 
 .xg-hmenu-sort-asc .x-menu-item-icon {
-	background: transparent url(../images/jnap-azure/shared/icons-general.png) no-repeat -304px 0;
+	@include icon-sort-asc-16;
 }
 
 .xg-hmenu-sort-desc .x-menu-item-icon {
-	background: transparent url(../images/jnap-azure/shared/icons-general.png) no-repeat -320px 0;
+	@include icon-sort-desc-16;
 }
 
 .xg-hmenu-lock .x-menu-item-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -192px 0;
+	@include icon-locker-locked-16;
 }
 
 .xg-hmenu-unlock .x-menu-item-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -208px 0;
+	@include icon-locker-unlocked-16;
 }
 
 .x-grid3-hd-btn {
-	background-color: #c3daf9;
+	background-color: darken($theme-light-color, 20%);
 	background-image: url(../images/default/grid/grid3-hd-btn.gif);
 }
 
@@ -202,16 +200,16 @@ td {
 
 .x-grid3-body {
 	.x-grid3-td-numberer {
-		background-image:url(../images/default/grid/grid3-special-col-bg.gif);
+		background-image: url(../images/default/grid/grid3-special-col-bg.gif);
 		.x-grid3-cell-inner {
-			color:#444;
+			color: #444;
 		}
 	}
 	.x-grid3-td-row-icon {
 		background-image: url(../images/default/grid/grid3-special-col-bg.gif);
 	}
 	.x-grid3-row-selected {
-		.x-grid3-td-numberer , .x-grid3-td-checker,	.x-grid3-td-expander {
+		.x-grid3-td-numberer, .x-grid3-td-checker, .x-grid3-td-expander {
 			background-image: url(../images/default/grid/grid3-special-col-sel-bg.gif);
 		}
 	}
@@ -234,8 +232,8 @@ td {
 	border-bottom-color: #CDCDCD;
 	div.x-grid-group-title {
 		background:	transparent url(../images/jnap-azure/shared/expand-collapse.png) no-repeat 4px -14px;
-		color: #363636;
-		font: bold 11px tahoma, arial, helvetica, sans-serif;
+		color: $theme-default-text-color;
+		@include font-config($theme-default-font-size, bold);
 	}
 }
 
@@ -244,27 +242,27 @@ td {
 }
 
 .x-group-by-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -256px 0;
+	@include icon-grid-group-16;
 }
 
 .x-cols-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -240px 0;
+	@include icon-grid-column-16;
 }
 
 .x-show-groups-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -256px 0;
+	@include icon-grid-group-16;
 }
 
 .x-grid-empty {
 	color: gray;
-	font: normal 11px tahoma, arial, helvetica, sans-serif;
+	@include default-font;
 }
 
 .x-grid-with-col-lines {
 	.x-grid3-row td.x-grid3-cell {
-		border-right-color:#ededed;
+		border-right-color: #ededed;
 	}
 	.x-grid3-row-selected {
-		border-top-color: #a3bae9;
+		border-top-color: $theme-main-color;
 	}
 }

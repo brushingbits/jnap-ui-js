@@ -16,7 +16,7 @@
 
 .x-mask-loading div {
 	background-color: #fbfbfb;
-	background-image: url(../images/jnap-azure/shared/loading.gif);
+	background-image: url(../images/#{$theme-name}/shared/loading.gif);
 }
 
 .x-item-disabled {
@@ -33,16 +33,16 @@
 .x-color-palette {
 	a {
 		border-color: #fff;
-		&:hover , &.x-color-palette-sel {
-			background-color: #deecfd;
-			border-color: #8bb8f3;
+		&:hover, &.x-color-palette-sel {
+			background-color: $theme-light-color;
+			border-color: $theme-main-color;
 		}
 	}
-	em:hover,span:hover {
-		background-color: #deecfd;
+	em:hover, span:hover {
+		background-color: $theme-light-color;
 	}
 	em {
-		border-color: #aca899;
+		border-color: lighten($theme-border-color, 10%);
 	}
 }
 
@@ -63,8 +63,8 @@
 }
 
 .loading-indicator {
-	font-size: $default-font-size;
-	background-image: url(../images/jnap-azure/shared/loading.gif);
+	font-size: $theme-default-font-size;
+	background-image: url(../images/#{$theme-name}/shared/loading.gif);
 }
 
 .x-spotlight {

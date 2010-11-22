@@ -6,13 +6,13 @@
 }
 
 .x-dd-drop-nodrop .x-dd-drop-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -48px 0;
+	@include icon-forbidden-16;
 }
 
 .x-dd-drop-ok .x-dd-drop-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -96px 0;
+	@include icon-success-16;
 }
 
 .x-dd-drop-ok-add .x-dd-drop-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -16px 0;
+	@include icon-add-16;
 }

@@ -7,7 +7,7 @@
 .x-date-middle,.x-date-left,.x-date-right {
 	background-image: url(../images/default/shared/hd-sprite.gif);
 	color: #fff;
-	@include font-config($default-font-size, bold);
+	@include font-config($theme-default-font-size, bold);
 }
 
 .x-date-middle {
@@ -30,10 +30,10 @@
 .x-date-inner {
 	th {
 		background-color: #fff;
-		background-image: url(../images/jnap-azure/shared/glass-bg.png);
+		background-image: url(../images/#{$theme-base}/shared/glass-bg.png);
 		border-bottom-color: $theme-border-color;
 		color: $theme-default-text-color;
-		@include font-config($default-font-size - 1px, normal);
+		@include font-config($theme-default-font-size - 1px, normal);
 	}
 	td {
 		border-color: #fff;
@@ -46,12 +46,12 @@
 		color: #000;
 	}
 	.x-date-selected a {
-		background-color: $theme-secondary-color;
-		background-image: url(../images/jnap-azure/shared/color-gradient-bg.png);
-		border: 1px solid $theme-primary-color;
+		background-color: $theme-light-color;
+		background-image: url(../images/#{$theme-name}/shared/color-gradient-bg.png);
+		border: 1px solid $theme-main-color;
 	}
 	.x-date-today a {
-		border: 1px dashed $theme-primary-color;
+		border: 1px dashed $theme-main-color;
 	}
 	.x-date-selected span {
 		font-weight: bold;
@@ -63,8 +63,8 @@
 
 .x-date-bottom {
 	border-top-color: $theme-border-color;
-	background-color: #ECECEC;
-	background-image: url(../images/jnap-azure/shared/glass-bg.png);
+	background-color: #ececec;
+	background-image: url(../images/#{$theme-base}/shared/glass-bg.png);
 	button {
 		font-weight: bold;
 	}
@@ -73,14 +73,14 @@
 .x-date-inner {
 	a:hover { 
 		color: #000;
-		background-color: $theme-secondary-color;
+		background-color: $theme-light-color;
 	}
 	.x-date-disabled a {
 		background-color: #eee;
 		color: #bbb;
 		&:hover {
-			color:#000;
-			background-color: $theme-secondary-color;
+			color: #000;
+			background-color: $theme-light-color;
 		}
 	}
 }
@@ -88,7 +88,7 @@
 .x-date-mmenu {
 	background-color: #eee !important;
 	.x-menu-item {
-		font-size: 10px;
+		font-size: $theme-default-font-size - 1px;
 		color: #000;
 	}
 }
@@ -101,13 +101,13 @@
 }
 
 .x-date-mp-btns {
-	background-color: #FBFBFB ;
-	background-image: url (../images/jnap-azure/shared/glass-bg.png );
+	background-color: #fbfbfb;
+	background-image: url(../images/#{$theme-base}/shared/glass-bg.png);
 	button {
-		background-color: #DFDFDF;
-		border-color: #8F8F8F #6F6F6F #6F6F6F #8F8F8F;
+		background-color: #efefef;
+		border-color: #8f8f8f #6f6f6f #6f6f6f #8f8f8f;
 		color: $theme-default-text-color;
-		@include font-config(@default-font-size, bold);
+		@include font-config($theme-default-font-size, bold);
 	}
 	td {
 		border-top-color: $theme-border-color;
@@ -119,20 +119,20 @@ td {
 		color: $theme-default-text-color;
 	}
 	&.x-date-mp-month a:hover, &.x-date-mp-year a:hover {
-		background-color: $theme-secondary-color;
+		background-color: $theme-light-color;
 		color: #000;
 	}
 	&.x-date-mp-sel a {
-		background-color: $theme-secondary-color;
-		background-image: url(../images/jnap-azure/shared/color-gradient-bg.png);
-		border-color: $theme-primary-color;
+		background-color: $theme-light-color;
+		background-image: url(../images/#{$theme-name}/shared/color-gradient-bg.png);
+		border-color: $theme-main-color;
 	}
 }
 
 .x-date-mp-ybtn a {
-	background-image: url(../images/jnap-azure/panel/tool-sprites.png);
+	background-image: url(../images/#{$theme-name}/panel/tool-sprites.png);
 }
 
 td.x-date-mp-sep {
-	border-right-color: #c5d2df;
+	border-right-color: darken($theme-border-color, 10%);
 }

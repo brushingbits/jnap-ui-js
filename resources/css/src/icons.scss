@@ -3,18 +3,86 @@
 	background: transparent url(../images/#{$theme-base}/shared/icons-general.png) no-repeat $x $y;
 }
 
+@mixin icon-calendar-16 {
+	@include icon-general(0, 0);
+}
+
+@mixin icon-add-16 {
+	@include icon-general(0, -16px);
+}
+
 @mixin icon-error-16 {
 	@include icon-general(0, -32px);
 }
 
-@mixin icon-info-16 {
-	@include icon-general(0, -80px);
+@mixin icon-invalid-16 {
+	@include icon-general(0, -48px);
 }
 
 @mixin icon-success-16 {
 	@include icon-general(0, -64px);
 }
 
+@mixin icon-info-16 {
+	@include icon-general(0, -80px);
+}
+
+@mixin icon-question-16 {
+	@include icon-general(0, -96px);
+}
+
 @mixin icon-warning-16 {
 	@include icon-general(0, -112px);
+}
+
+@mixin icon-forbidden-16 {
+	@include icon-general(0, -128px);
+}
+
+@mixin icon-drop-between-16 {
+	@include icon-general(0, -144px);
+}
+
+@mixin icon-drop-under-16 {
+	@include icon-general(0, -160px);
+}
+
+@mixin icon-drop-over-16 {
+	@include icon-general(0, -176px);
+}
+
+@mixin icon-folder-closed-16 {
+	@include icon-general(0, -192px);
+}
+
+@mixin icon-folder-open-16 {
+	@include icon-general(0, -208px);
+}
+
+@mixin icon-node-16 {
+	@include icon-general(0, -224px);
+}
+
+@mixin icon-locker-locked-16 {
+	@include icon-general(0, -240px);
+}
+
+@mixin icon-locker-unlocked-16 {
+	@include icon-general(0, -256px);
+}
+
+@mixin icon-sort-asc-16 {
+	@include icon-general(0, -272px);
+}
+
+@mixin icon-sort-desc-16 {
+	@include icon-general(0, -288px);
+}
+
+@mixin icon-grid-column-16 {
+	@include icon-general(0, -304px);
+}
+
+@mixin icon-grid-group-16 {
+	@include icon-general(0, -320px);
 }

@@ -1,17 +1,21 @@
 .x-tree-node-expanded .x-tree-node-icon {
-	background: transparent url(../images/jnap-azure/shared/icons-general.png) no-repeat -144px 0;
+	@include icon-folder-open-16;
 }
 
 .x-tree-node-leaf .x-tree-node-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -176px 0;
+	height: 16px;
+	width: 16px;
+	@include icon-node-16;
 }
 
 .x-tree-node-collapsed .x-tree-node-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -128px 0;
+	height: 16px;
+	width: 16px;
+	@include icon-folder-closed-16;
 }
 
 .x-tree-node-loading .x-tree-node-icon {
-	background-image: url(../images/jnap-azure/shared/loading.gif) !important;
+	background-image: url(../images/#{$theme-name}/shared/loading.gif) !important;
 }
 
 .x-tree-node .x-tree-node-inline-icon {
@@ -63,7 +67,7 @@
 }
 
 .x-tree-arrows {
-	.x-tree-elbow-plus , .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
+	.x-tree-elbow-plus, .x-tree-elbow-minus, .x-tree-elbow-end-plus, .x-tree-elbow-end-minus {
 		background-image:url(../images/default/tree/arrows.gif);
 	}
 }
@@ -82,24 +86,24 @@
 
 .x-tree-node {
 	.x-tree-node-disabled a span {
-		color: gray!important;
+		color: gray !important;
 	}
 	div {
 		&.x-tree-drag-insert-below {
-			border-bottom-color: #36c;
+			border-bottom-color: $theme-main-color;
 		}
 		&.x-tree-drag-insert-above {
-			border-top-color: #36c;
+			border-top-color: $theme-main-color;
 		}
 	}
 }
 
 .x-tree-dd-underline .x-tree-node div {
 	&.x-tree-drag-insert-below a {
-		border-bottom-color: #36c;
+		border-bottom-color: $theme-main-color;
 	}
 	&.x-tree-drag-insert-above a {
-		border-top-color: #36c;
+		border-top-color: $theme-main-color;
 	}
 }
 
@@ -109,26 +113,26 @@
 		border-color: $theme-border-color;
 	}
 	.x-tree-node-over {
-		background-color: $theme-secondary-color;
+		background-color: $theme-light-color;
 	}
 	.x-tree-selected {
-		background-color: $theme-secondary-color;
+		background-color: $theme-light-color;
 		font-weight: bold;
 	}
 }
 
 .x-tree-drop-ok-append .x-dd-drop-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -16px 0;
+	@include icon-add-16;
 }
 
 .x-tree-drop-ok-above .x-dd-drop-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -64px 0;
+	@include icon-drop-over-16;
 }
 
 .x-tree-drop-ok-below .x-dd-drop-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -80px 0;
+	@include icon-drop-under-16;
 }
 
 .x-tree-drop-ok-between .x-dd-drop-icon {
-	background: transparent	url(../images/jnap-azure/shared/icons-general.png) no-repeat -32px 0;
+	@include icon-drop-between-16;
 }
