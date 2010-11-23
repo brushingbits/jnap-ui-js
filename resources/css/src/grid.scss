@@ -171,7 +171,7 @@ td {
 
 .x-grid3-hd-btn {
 	background-color: darken($theme-light-color, 20%);
-	background-image: url(../images/default/grid/grid3-hd-btn.gif);
+	background-image: url(../images/#{$theme-name}/grid/grid-hd-btn.png);
 }
 
 .x-grid3-body .x-grid3-td-expander {
@@ -179,7 +179,7 @@ td {
 }
 
 .x-grid3-row-expander {
-	background-image: url(../images/jnap-azure/shared/expand-collapse.png);
+	background-image: url(../images/#{$theme-base}/shared/expand-collapse.png);
 }
 
 .x-grid3-row-expanded .x-grid3-row-expander {
@@ -231,14 +231,14 @@ td {
 	zoom: 1;
 	border-bottom-color: #CDCDCD;
 	div.x-grid-group-title {
-		background:	transparent url(../images/jnap-azure/shared/expand-collapse.png) no-repeat 4px -14px;
+		background:	transparent url(../images/#{$theme-base}/shared/expand-collapse.png) no-repeat 4px -14px;
 		color: $theme-default-text-color;
 		@include font-config($theme-default-font-size, bold);
 	}
 }
 
 .x-grid-group-collapsed .x-grid-group-hd div.x-grid-group-title {
-	background: transparent	url(../images/jnap-azure/shared/expand-collapse.png) no-repeat 4px -44px;
+	background: transparent	url(../images/#{$theme-base}/shared/expand-collapse.png) no-repeat 4px -44px;
 }
 
 .x-group-by-icon {
