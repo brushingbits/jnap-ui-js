@@ -92,10 +92,10 @@ Ext.ux.jnap.NotificationMessage = Ext.extend(Ext.BoxComponent, {
 	 */
 	destroyOnHide : true,
 
-    /**
-     * @cfg {Number} dismissDelay Delay in milliseconds before the message box automatically 
-     * hides. To disable automatic hiding, set dismissDelay = 0 (this is the default value).
-     */
+	/**
+	 * @cfg {Number} dismissDelay Delay in milliseconds before the message box automatically 
+	 * hides. To disable automatic hiding, set dismissDelay = 0 (this is the default value).
+	 */
 	dismissDelay : 0,
 
 	/**
