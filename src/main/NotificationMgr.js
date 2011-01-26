@@ -13,6 +13,12 @@ Ext.ux.jnap.NotificationMgr = function() {
 		});
 	};
 
+	// ajax loading message support objects
+	var _currentAjaxLoadingMsg = null;
+	var _ajaxLoadingMsgOwner = new Array();
+	var _shouldShowLoadingMsg = true;
+
+	// singleton object
 	return {
 
 		TARGET_TOP_LEFT : 'tl-tl',
@@ -71,6 +77,68 @@ Ext.ux.jnap.NotificationMgr = function() {
 			msg.show();
 			targetCont.anchorTo(target, config.position, config.positionOffset, false, true);
 			return msg;
+		},
+
+		/**
+		 * 
+		 */
+		defaultAjaxLoadingMsgText : 'Please wait, loading...',
+
+		/**
+		 * 
+		 */
+		defaultAjaxLoadingMsgStyle : 'clear',
+
+		/**
+		 * 
+		 * @param conn
+		 * @param options
+		 * @returns
+		 */
+		showAjaxLoadingMsg : function(conn, options) {
+			_ajaxLoadingMsgOwner.push(conn);
+			if (!_currentAjaxLoadingMsg) {
+				var loadingMsg = Ext.ux.jnap.NotificationMgr.defaultAjaxLoadingMsgText;
+				_currentAjaxLoadingMsg = Ext.ux.jnap.NotificationMgr.notify({
+					msg : {
+						msg : String.format('<p class="{1}">{0}</p>', loadingMsg, 'x-loading'),
+						type : Ext.ux.jnap.NotificationMgr.defaultAjaxLoadingMsgStyle,
+						extraCls : 'no-icon',
+						animateOnShow : false,
+						animateOnHide : false
+					},
+					width : 200,
+					position : Ext.ux.jnap.NotificationMgr.TARGET_TOP_LEFT
+				});
+			}
+		},
+
+		/**
+		 * 
+		 * @param conn
+		 * @param response
+		 * @param options
+		 * @returns
+		 */
+		hideAjaxLoadingMsg : function(conn, response, options) {
+			_ajaxLoadingMsgOwner.pop();
+			if (_ajaxLoadingMsgOwner.length == 0 &&
+					(_currentAjaxLoadingMsg != null && _currentAjaxLoadingMsg.isVisible())) {
+				_currentAjaxLoadingMsg.hide();
+				_currentAjaxLoadingMsg = null;
+			}
+		},
+
+		/**
+		 * 
+		 * @returns
+		 */
+		registerDefaultLoadingMsgOnAjax : function() {
+			var scope = Ext.ux.jnap.NotificationMgr;
+			Ext.Ajax.on('beforerequest', scope.showAjaxLoadingMsg, scope);
+			var defaultHideOpts = { buffer : 200 };
+			Ext.Ajax.on('requestcomplete', scope.hideAjaxLoadingMsg, scope, defaultHideOpts);
+			Ext.Ajax.on('requestexception', scope.hideAjaxLoadingMsg, scope, defaultHideOpts);
 		}
 
 	};

@@ -52,7 +52,7 @@ Ext.ux.jnap.form.ClearFieldPlugin = Ext.extend(Object, {
 		this._createClearTrigger();
 		this.field.mon(this.field.el, 'mouseover', this.onMouseOver, this, { buffer : 20 });
 		this.field.mon(this.field.el, 'mouseout', this.onMouseOut, this, { buffer : 20 });
-		this.field.mon(this.field, 'afterlayout', this._doTriggerPosition, this);
+		this.field.mon(this.field, 'afterrender', this._doTriggerPosition, this);
 		this.field.mon(this.field, 'destroy', this.onDestroy, this);
 	},
 

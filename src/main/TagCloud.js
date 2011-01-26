@@ -19,7 +19,7 @@ Ext.ux.jnap.TagCloud = Ext.extend(Ext.DataView, {
 	 * @cfg {String} fontSizeUnit
 	 */
 	fontSizeUnit : 'px',
-	
+
 	/**
 	 * @cfg {String} headStyle
 	 */
@@ -34,7 +34,7 @@ Ext.ux.jnap.TagCloud = Ext.extend(Ext.DataView, {
 	 * @cfg {Number} maxFontSize
 	 */
 	maxFontSize : 28,
-	
+
 	/**
 	 * @cfg {String} occurencesProperty
 	 */
@@ -60,7 +60,7 @@ Ext.ux.jnap.TagCloud = Ext.extend(Ext.DataView, {
 		Ext.ux.jnap.TagCloud.superclass.initComponent.call(this);
 		Ext.apply(this, {
 			cls : this.baseCls,
-			itemSelector : 'li.' + this.baseCls + '-tag',
+			itemSelector : 'span.' + this.baseCls + '-tag',
 			singleSelect : false,
 			multiSelect : false,
 			selectedClass : '',
@@ -70,13 +70,13 @@ Ext.ux.jnap.TagCloud = Ext.extend(Ext.DataView, {
 			'<tpl if="headStyle != \'plain\'"><div class="{baseCls}-header-{headStyle}"></div></tpl>',
 			'<div class="{baseCls}-body">',
 				'<tpl if="title"><h3>{title}</h3></tpl>',
-				'<ul class="{baseCls}-tag-list">',
+				'<p class="{baseCls}-tag-list">',
 				'<tpl for="tags">',
-					'<li class="{parent.baseCls}-tag">',
+					'<span class="{parent.baseCls}-tag">',
 						'<a href="' + this.tagLink + '">' + this.tagText + '</a>',
-					'</li>',
+					'</span>',
 				'</tpl>',
-				'</ul>',
+				'</p>',
 			'</div>', {
 				compiled: true,
 				disableFormats: true
@@ -103,9 +103,9 @@ Ext.ux.jnap.TagCloud = Ext.extend(Ext.DataView, {
 	 * Calculates and updates the font size of each tag after 'refresh'.
 	 */
 	onRefresh : function() {
-		var freqArray = this.store.collect(this.occurencesProperty);
-		var minOccurs = Ext.min(freqArray),
-			maxOccurs = Ext.max(freqArray);
+		var occurencesArray = this.store.collect(this.occurencesProperty);
+		var minOccurs = Ext.min(occurencesArray),
+			maxOccurs = Ext.max(occurencesArray);
 		Ext.each(this.all.elements, function(item, i, array) {
 			// calculating font size using logarithmic mapping
 			var record = this.store.getAt(item.viewIndex);

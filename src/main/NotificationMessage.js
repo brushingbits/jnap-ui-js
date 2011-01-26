@@ -144,10 +144,13 @@ Ext.ux.jnap.NotificationMessage = Ext.extend(Ext.BoxComponent, {
 		if (!this.tpl) {
 			this.tpl = new Ext.XTemplate(
 				'<div class="{cls} {cls}-{type}">',
+				'<tpl if="closeable">',
+				'<input class="{cls}-close" type="image" value="" />',
+				'</tpl>',
 				'<span class="{cls}-icon"></span>',
+				'<div class="{cls}-content">',
 				'<tpl if="hasTitle"><h3 class="{cls}-title">{title}</h3></tpl>',
-				'<p class="{cls}-msg">{msg}</p>',
-				'<tpl if="closeable"><span class="{cls}-close"></span></tpl>',
+				'{msg}</div>',
 				'</div>', {
 					compiled: true,
 					disableFormats: true
@@ -168,15 +171,15 @@ Ext.ux.jnap.NotificationMessage = Ext.extend(Ext.BoxComponent, {
 		if (this.title) {
 			this._titleEl = this.el.first('h3');
 		}
-		this._msgEl = this.el.first('p');
+		this._msgEl = this.el.first('div.' + this.baseCls + '-content');
 		if (this.closeable) {
-			this._closeEl = this.el.first('span.' + this.baseCls + '-close');
+			this._closeEl = this.el.first('input.' + this.baseCls + '-close');
 			this._configCloseEl();
 		}
 
 		// schedule auto dismiss
 		if (!this.hidden) {
-			this._setAutoDismiss();
+			this._doAfterShow();
 		}
 	},
 
@@ -233,7 +236,8 @@ Ext.ux.jnap.NotificationMessage = Ext.extend(Ext.BoxComponent, {
 		// if its closeable and the close element doesnt exists, then create it
 		if (closeable && !this._closeEl) {
 			this._closeEl = this.el.append({
-				tag: 'span',
+				tag: 'input',
+				type : 'image',
 				cls: this.baseCls + '-close'
 			});
 			this._configCloseEl();
@@ -267,6 +271,10 @@ Ext.ux.jnap.NotificationMessage = Ext.extend(Ext.BoxComponent, {
 
 	onHide : function() {
 		var me = this.el;
+		if (!me) {
+			this._hideAlreadyTriggered = true;
+			return false;
+		}
 		if (this._dismissTimer) {
 			window.clearTimeout(this._dismissTimer);
 		}
@@ -294,11 +302,11 @@ Ext.ux.jnap.NotificationMessage = Ext.extend(Ext.BoxComponent, {
 				concurrent : true,
 				endOpacity : 0.9,
 				scope : this,
-				callback : this._setAutoDismiss.createDelegate(this)
+				callback : this._doAfterShow.createDelegate(this)
 			});
 		} else {
 			this.el.setVisible(true);
-			this._setAutoDismiss();
+			this._doAfterShow();
 		}
 	},
 
@@ -336,7 +344,7 @@ Ext.ux.jnap.NotificationMessage = Ext.extend(Ext.BoxComponent, {
 	},
 
 	// private
-	_setAutoDismiss : function() {
+	_doAfterShow : function() {
 		if (this.dismissDelay) {
 			window.clearTimeout(this._dismissTimer);
 			this._dismissTimer = this.hide.defer(this.dismissDelay, this);

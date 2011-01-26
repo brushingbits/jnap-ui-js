@@ -27,9 +27,11 @@ Ext.ux.jnap.form.FormUtils = function() {
 		default:
 			msg = {
 				type : 'error',
-				msg : response.result.msg
+				msg : response.result.msg,
+				dismissDelay : 0
 			};
 		}
+		return msg;
 	};
 
 	return {
@@ -43,6 +45,8 @@ Ext.ux.jnap.form.FormUtils = function() {
 		defaultResetOnSuccess : false,
 
 		defaultClearOnSuccess : false,
+
+		defaultSubmitMethod : 'POST',
 
 		restfulMethodParamName : '_method',
 
@@ -61,14 +65,14 @@ Ext.ux.jnap.form.FormUtils = function() {
 		submit : function(src, evt, opts) {
 			opts = opts || {};
 			Ext.applyIf(opts, {
-				successMsg : Ext.ux.jnap.form.FormUtils.defaultSuccessMsg,
-				invalidMsg : Ext.ux.jnap.form.FormUtils.defaultInvalidMsg,
-				errorMsg : _getErrorMsg,
-				resetOnSuccess : Ext.ux.jnap.form.FormUtils.defaultResetOnSuccess,
 				clearOnSuccess : Ext.ux.jnap.form.FormUtils.defaultClearOnSuccess,
+				errorMsg : _getErrorMsg,
+				invalidMsg : Ext.ux.jnap.form.FormUtils.defaultInvalidMsg,
+				resetOnSuccess : Ext.ux.jnap.form.FormUtils.defaultResetOnSuccess,
+				msgTarget : undefined,
 				onSuccess : Ext.emptyFn,
 				onError : Ext.emptyFn,
-				method: 'POST'
+				successMsg : Ext.ux.jnap.form.FormUtils.defaultSuccessMsg
 			});
 			var formPanel = opts.form || src.findParentByType(Ext.form.FormPanel);
 			if (!formPanel) {
@@ -76,34 +80,39 @@ Ext.ux.jnap.form.FormUtils = function() {
 			}
 			var form = formPanel.getForm();
 			if (form.isValid()) {
-				var formMethod = form.method || opts.method;
+				var formMethod = opts.method || form.method || formPanel.method;
+				if (!formMethod) {
+					formMethod = Ext.ux.jnap.form.FormUtils.defaultSubmitMethod;
+				}
 				formMethod = formMethod.toUpperCase();
-				if (form.method != 'GET') {
-					if (formMethod != 'POST') {
-						formPanel.add({
-							xtype : 'hidden',
-							name : Ext.ux.jnap.form.FormUtils.restfulMethodParamName,
-							value : formMethod
-						});
-					}
+				if (formMethod != 'GET' && formMethod != 'POST') {
+					formPanel.add({
+						xtype : 'hidden',
+						name : Ext.ux.jnap.form.FormUtils.restfulMethodParamName,
+						value : formMethod
+					});
+					formMethod = 'POST';
 				}
 				form.submit({
 					url : opts.url || form.url || formPanel.url,
 					method : formMethod,
 					success : function(form, response) {
-						opts.onSuccess.call(form, response);
+						opts.onSuccess.call(form, form, response);
 						if (opts.resetOnSuccess) {
 							form.reset();
 						}
 						if (opts.clearOnSuccess) {
 							// TODO clear all fields
 						}
-						Ext.ux.jnap.form.FormUtils.showMessage(formPanel, opts.successMsg);
+						Ext.ux.jnap.form.FormUtils.showMessage(formPanel, {
+							msg : opts.successMsg,
+							type : 'success'
+						});
 					},
 					failure : function(form, response) {
-						opts.onError.call(form, response);
+						opts.onError.call(form, form, response);
 						var errorMsg = Ext.isFunction(opts.errorMsg)
-								? opts.errorMsg.call(response)
+								? opts.errorMsg.call(form, response)
 								: opts.errorMsg;
 						Ext.ux.jnap.form.FormUtils.showMessage(formPanel, errorMsg);
 					}
@@ -152,10 +161,6 @@ Ext.ux.jnap.form.FormUtils = function() {
 				}
 				var notificationMsg = new Ext.ux.jnap.NotificationMessage(msg);
 				notificationMsg.render(formMsgId);
-				// TODO how to put this inside the NotificationMessage class? top parent container doLayout?
-				/*notificationMsg.mon(notificationMsg, 'hide', function() {
-					this.doLayout();
-				}, formPanel);*/
 			}
 		}
 

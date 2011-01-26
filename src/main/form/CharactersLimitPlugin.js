@@ -34,7 +34,7 @@ Ext.ux.jnap.form.CharactersLimitPlugin = Ext.extend(Object, {
 	 * @param {Ext.form.TextArea} textarea
 	 */
 	init : function(textarea) {
-		if (!textarea instanceof Ext.form.TextArea || !textarea.maxLength) {
+		if (!(textarea instanceof Ext.form.TextArea) || !textarea.maxLength) {
 			return false;
 		}
 		this.textarea = textarea;
