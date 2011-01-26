@@ -1,8 +1,8 @@
 .x-btn {
 	@include default-font;
 	button {
-		@include default-font;
 		color: $theme-default-text-color;
+		@include default-font;
 	}
 	em {
 		font-style: normal;
@@ -16,8 +16,8 @@
 }
 
 .x-btn-tl,.x-btn-tr,.x-btn-bl,.x-btn-br,.x-btn-tl i,.x-btn-tr i,.x-btn-bl i,.x-btn-br i {
-	width: 6px;
 	height: 6px;
+	width: 6px;
 }
 
 .x-btn-tc,.x-btn-bc,.x-btn-tc i,.x-btn-bc i {
@@ -188,7 +188,7 @@
 
 .x-btn-mc em {
 	&.x-btn-arrow {
-		background-image:url(../images/default/button/arrow.gif);
+		background-image: url(../images/default/button/arrow.gif);
 	}
 	&.x-btn-split {
 		background-image: url(../images/default/button/s-arrow.gif);
@@ -202,7 +202,7 @@
 
 .x-btn-mc em {
 	&.x-btn-arrow-bottom {
-		background-image:url(../images/default/button/s-arrow-b-noline.gif);
+		background-image: url(../images/default/button/s-arrow-b-noline.gif);
 	}
 	&.x-btn-split-bottom {
 		background-image: url(../images/default/button/s-arrow-b.gif);

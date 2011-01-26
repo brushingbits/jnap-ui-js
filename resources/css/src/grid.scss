@@ -52,7 +52,7 @@
 
 td {
 	&.x-grid3-hd-over, &.sort-desc, &.sort-asc, &.x-grid3-hd-menu-open {
-		border-left-color: $theme-main-color;
+		border-left-color: $theme-light-color;
 		border-right-color: $theme-main-color;
 	}
 	&.x-grid3-hd-over .x-grid3-hd-inner, &.sort-desc .x-grid3-hd-inner, &.sort-asc .x-grid3-hd-inner,

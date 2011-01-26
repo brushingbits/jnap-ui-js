@@ -20,7 +20,7 @@
 	color: #393939;
 	@include default-font;
 	h3 {
-		@include font-config($default-font-size + 1px, bold);
+		@include font-config($theme-default-font-size + 1px, bold);
 	}
 }
 
@@ -42,16 +42,16 @@
 
 // .x-box-blue kept for compability, .x-box-theme is the semantically correct way
 .x-box-blue, .x-box-theme {
-	.x-box-bl , .x-box-br, .x-box-tl, .x-box-tr {
-		background-image:url(../images/default/box/corners-blue.gif);
+	.x-box-bl, .x-box-br, .x-box-tl, .x-box-tr {
+		background-image: url(../images/default/box/corners-blue.gif);
 	}
 	.x-box-bc,.x-box-mc,.x-box-tc {
 		background-image: url(../images/default/box/tb-blue.gif);
 	}
 	.x-box-mc {
-		background-color: $theme-secondary-color;
+		background-color: $theme-light-color;
 		h3 {
-			color: $theme-tertiary-color;
+			color: $theme-dark-color;
 		}
 	}
 	.x-box-ml {

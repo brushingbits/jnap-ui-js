@@ -34,13 +34,16 @@
 		border-bottom-color: $theme-border-color;
 		color: $theme-default-text-color;
 		@include font-config($theme-default-font-size - 1px, normal);
+		font-style: normal;
 	}
 	td {
 		border-color: #fff;
+		font-style: normal;
 	}
 	a {
 		color: #000;
 		@include default-font;
+		font-style: normal;
 	}
 	.x-date-active {
 		color: #000;

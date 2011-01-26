@@ -1,4 +1,6 @@
-/*----- NotificationMessage -----*/
+/*
+ *
+ */
 
 .x-notification-msg-container {
 	height: auto;
@@ -12,32 +14,28 @@
 	.x-notification-msg {
 		display: none;
 		margin: 0px 4px 10px 4px;
-		@include shadow(0px, 0px, 2px, #AFAFAF);
+		@include shadow(0px, 0px, 2px, #afafaf);
 		@include opacity(0.95);
 	}
 }
 
 .x-notification-msg {
 	font-size: 11px;
-	font-weight: bold;
 	margin: 4px 0;
 	overflow: hidden;
 	padding: 6px 10px 6px 10px;
 	@include border-radius(3px);
 
-	h3 {
-		display: block;
+	div.x-notification-msg-content {
 		float: left;
-		font-size: 12px;
-		margin-bottom: 4px;
-		padding: 0 20px 4px 10px;
+		font-weight: normal;
 		width: 90%;
-	}
-
-	p {
-		float: left;
-		padding: 0 20px 0 10px;
-		width: 90%;
+		h3.x-notification-msg-title {
+			display: block;
+			font-size: 12px;
+			font-weight: bold;
+			margin-bottom: 4px;
+		}
 	}
 
 	.x-notification-msg-icon {
@@ -45,10 +43,11 @@
 		float: left;
 		height: 16px;
 		width: 16px;
+		margin-right: 14px;
 	}
 
 	.x-notification-msg-close {
-		background: url(../images/#{$theme-base}/notificationmessage/close.png) 0 0 no-repeat;
+		background: url(../images/#{$theme-base}/notification-msg/close.png) 0 0 no-repeat;
 		cursor: pointer;
 		display: block;
 		float: right;
@@ -63,10 +62,15 @@
 	}
 }
 
+.x-notification-msg.no-icon {
+	.x-notification-msg-icon {
+		display: none;
+	}
+}
 
 .x-notification-msg.x-notification-msg-clear {
-	background-color: #F8F8F8;
-	border: 1px solid #6F6F6F;
+	background-color: #FEFEFE;
+	border: 1px solid #8F8F8F;
 	color: #363636;
 }
 

@@ -3,8 +3,8 @@
  */
 
 // theme form variables
-$theme-form-text-focus-glow-color: darken($theme-light-color, 40%) !default;
-$theme-form-text-invalid-focus-glow-color: lighten($theme-invalid-color, 10%) !default;
+$theme-form-text-focus-glow-color: darken($theme-light-color, 30%) !default;
+$theme-form-text-invalid-focus-glow-color: lighten($theme-invalid-color, 30%) !default;
 
 .x-form-field {
 	@include default-font;
@@ -18,7 +18,7 @@ $theme-form-text-invalid-focus-glow-color: lighten($theme-invalid-color, 10%) !d
 }
 
 .x-form-select-one {
-	background-color: #EFEFEF;
+	background-color: #efefef;
 	border-color: $theme-border-color;
 }
 
@@ -143,7 +143,7 @@ textarea.x-form-invalid {
 }
 
 .x-fieldset {
-	background-color: #fafafa;
+	background-color: #fcfcfc;
 	border-color: $theme-border-color;
 	@include border-radius(4px);
 }
@@ -152,25 +152,4 @@ textarea.x-form-invalid {
 	@include default-font;
 	font-weight: bold;
 	color: $theme-dark-color;
-}
-
-.x-field-required {
-	font-weight: bold;
-	padding: 0 4px;
-	color: $theme-main-color;
-}
-
-.x-field-hint {
-	color: $theme-light-text-color;
-	margin: 2px 0;
-}
-
-.x-field-required-hint {
-	color: $theme-light-text-color;
-	margin: 8px 0;
-}
-
-.x-field-charlimit-hint {
-	color: $theme-light-text-color;
-	margin: 2px 0;
 }

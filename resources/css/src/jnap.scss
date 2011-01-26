@@ -2,16 +2,16 @@
  *
  */
 
-$default-font-family: tahoma, arial, helvetica, sans-serif;
-$default-font-size: 11px;
-$theme-base: 'jnap-base';
+$theme-default-font-family: tahoma, arial, helvetica, sans-serif !default;
+$theme-default-font-size: 11px !default;
+$theme-base: "jnap-base";
 
 @mixin default-font-family {
-	font-family: tahoma, arial, helvetica, sans-serif;
+	font-family: $theme-default-font-family;
 }
 
 @mixin default-font-style {
-	font-size: $default-font-size;
+	font-size: $theme-default-font-size;
 	font-weight: normal;
 }
 
@@ -20,5 +20,13 @@ $theme-base: 'jnap-base';
 	@include default-font-style;
 }
 
-@import "_base", "icons", "button", "carousel", "form", "grid", "imagebox", "notificationmessage";
-@import "panel", "rating", "tree", "upload", "window";
+@mixin font-config($size, $weight) {
+	@include default-font-family;
+	font-size: $size;
+	font-weight: $weight;
+}
+
+@import "_base", "icons", "box", "button", "carousel", "combo", "core", "date-picker", "dd";
+@import "dialog", "editor", "form", "form-extra", "grid", "imagebox", "layout", "list-view", "menu";
+@import "notification-msg", "panel", "progress", "qtips", "rating", "resizable", "slider";
+@import "tabs", "tagcloud", "toolbar", "tree", "upload", "window";

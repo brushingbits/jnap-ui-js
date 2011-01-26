@@ -1,9 +1,9 @@
 .x-menu {
-	background-color: #FAFAFA;
+	background-color: #f8f8f8;
 }
 
 .x-menu-floating {
-	border-color: $theme-border-color;
+	border-color: darken($theme-border-color, 10%);
 }
 
 .x-menu-nosep {
@@ -28,8 +28,8 @@ a.x-menu-item {
 }
 
 .x-menu-item-active {
-	background-color: $theme-secondary-color;
-	border-color: $theme-primary-color;
+	background-color: $theme-light-color;
+	border-color: $theme-main-color;
 	border-width: 1px;
 	@include border-radius(2px);
 	a.x-menu-item {
@@ -72,8 +72,8 @@ a.x-menu-item {
 }
 
 .x-cycle-menu .x-menu-item-checked {
-	border: 1px dashed $theme-primary-color !important;
-	background-color: $theme-secondary-color;
+	border: 1px dashed $theme-main-color !important;
+	background-color: $theme-light-color;
 }
 
 .x-menu-scroller-top {

@@ -116,3 +116,15 @@
 	line-height: 20px;
 	@include border-radius(0px);
 }
+
+.x-view-item-over {
+	border: 1px solid lighten($theme-main-color, 10%) !important;
+	background-color: lighten($theme-light-color, 4%) !important;
+	@include border-radius(3px);
+}
+
+.x-view-selected {
+	border: 1px solid $theme-main-color !important;
+	background-color: $theme-light-color !important;
+	@include border-radius(3px);
+}

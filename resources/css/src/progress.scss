@@ -16,7 +16,7 @@
 }
 
 .x-progress-text {
-	@include font-config($default-font-size, bold);
+	@include font-config($theme-default-font-size, bold);
 	color: #fff;
 }
 

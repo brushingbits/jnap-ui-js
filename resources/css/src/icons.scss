@@ -86,3 +86,7 @@
 @mixin icon-grid-group-16 {
 	@include icon-general(0, -320px);
 }
+
+@mixin icon-clear-plain-16 {
+	@include icon-general(0, -336px);
+}

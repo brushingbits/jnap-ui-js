@@ -1,0 +1,34 @@
+
+.x-field-required {
+	font-weight: bold;
+	padding: 0 4px;
+	color: $theme-main-color;
+}
+
+.x-field-hint {
+	color: $theme-light-text-color;
+	margin: 2px 0;
+}
+
+.x-field-required-hint {
+	color: $theme-light-text-color;
+	margin: 8px 0;
+}
+
+.x-field-charlimit-hint {
+	color: $theme-light-text-color;
+	margin: 2px 0;
+}
+
+.x-field-clear {
+	display: block;
+	height: 16px;
+	position: absolute;
+	visibility: hidden;
+	width: 16px;
+	@include icon-clear-plain-16;
+}
+
+.x-field-clear-over {
+	cursor: pointer;
+}

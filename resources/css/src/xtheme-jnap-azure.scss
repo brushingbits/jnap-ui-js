@@ -1,12 +1,12 @@
 
 $theme-name: "jnap-azure";
-$theme-primary-color: #00a4e4;
-$theme-secondary-color: #daf1ff;
-$theme-tertiary-color: #0075ce;
+$theme-main-color: #00a4e4;
+$theme-light-color: #daf1ff;
+$theme-dark-color: #0075ce;
 $theme-invalid-color: #a81111;
 $theme-border-color: #bfbfbf;
 $theme-default-text-color: #363636;
-$theme-dark-text-color: $theme-default-text-color - #3f3f3f;
-$theme-light-text-color: $theme-default-text-color + #3f3f3f;
+$theme-dark-text-color: darken($theme-default-text-color, 30%);
+$theme-light-text-color: lighten($theme-default-text-color, 30%);
 
 @import "jnap";

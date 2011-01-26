@@ -3,7 +3,7 @@
 }
 
 .ext-el-mask-msg {
-	background-color: #DCDCDC;
+	background-color: #dcdcdc;
 	background-image: url(../images/jnap-azure/box/tb.gif);
 	border-color: #868686;
 	div {
@@ -12,6 +12,14 @@
 		color: #222;
 		@include default-font;
 	}
+}
+
+.x-loading {
+	background-image: url(../images/#{$theme-name}/shared/loading.gif);
+	background-repeat: no-repeat;
+	height: 18px;
+	padding: 0 0 0 24px;
+	margin: 0;
 }
 
 .x-mask-loading div {
@@ -69,4 +77,14 @@
 
 .x-spotlight {
 	background-color: #ccc;
+}
+
+a, a:visited {
+	color: $theme-dark-color;
+	text-decoration: none;
+}
+
+a:hover, a:active {
+	color: lighten($theme-dark-color, 15%);
+	text-decoration: underline;
 }
