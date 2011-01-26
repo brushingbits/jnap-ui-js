@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<project name="jnap-ui-js" default="compress-all" basedir=".">
+
+	<import id="jstools" file="build-jstools.xml" />
+
+	<property name="bundle.filename.debug" value="ext-jnap-all-debug.js" />
+	<property name="bundle.file.debug" value="${build.dir}/${bundle.filename.debug}" />
+	<property name="bundle.filename.min" value="ext-jnap-all.js" />
+	<property name="bundle.file.min" value="${build.dir}/${bundle.filename.min}" />
+	<property name="extdoc.home" value="${env.EXTDOC_HOME}" />
+
+	<target name="package-core">
+		<concat destfile="${build.dir}/pkgs/ext-jnap-core-debug.js" fixlastline="true">
+			<fileset dir="${source.dir}/main" includes="*.js,util/*.js" excludes="data/**,form/**,upload/**" />
+		</concat>
+	</target>
+
+	<target name="package-data">
+		<concat destfile="${build.dir}/pkgs/ext-jnap-data-debug.js" fixlastline="true">
+			<fileset dir="${source.dir}/main/data" includes="*.js" />
+		</concat>
+	</target>
+
+	<target name="package-form">
+		<concat destfile="${build.dir}/pkgs/ext-jnap-form-debug.js" fixlastline="true">
+			<fileset dir="${source.dir}/main/form" includes="*.js" />
+		</concat>
+	</target>
+
+	<target name="package-upload">
+		<property name="priorityFiles" value="Uploader.js,UploadProvider.js"/>
+		<concat destfile="${build.dir}/pkgs/ext-jnap-upload-debug.js" fixlastline="true">
+			<fileset dir="${source.dir}/main/upload" includes="${priorityFiles}" />
+			<fileset dir="${source.dir}/main/upload" excludes="${priorityFiles}" />
+		</concat>
+	</target>
+
+	<target name="package-all" depends="package-core,package-data,package-form">
+		<concat destfile="${bundle.file.debug}" fixlastline="true">
+			<fileset dir="${build.dir}/pkgs" includes="*-debug.js" />
+		</concat>
+	</target>
+
+	<target name="compile-scss">
+		<delete>
+			<fileset dir="${css.dir}" includes="xtheme-jnap-*.css" />
+		</delete>
+		<jstools.compileScss destdir="${css.dir}">
+			<files>
+				<fileset id="scssFiles" dir="${css.dir}/src" includes="xtheme-jnap-*.scss" />
+			</files>
+		</jstools.compileScss>
+		<jstools.compress destdir="${css.dir}" from="*.css" to="*-min.css" type="css">
+			<files>
+				<fileset dir="${css.dir}" includes="xtheme-jnap-*.css" excludes="*-min.css" />
+			</files>
+		</jstools.compress>
+	</target>
+
+	<target name="compress-all" depends="package-all">
+		<fileset id="distFiles" dir="${build.dir}" includes="pkgs/*.js,*.js" />
+		<jstools.removeComments>
+			<files>
+				<fileset refid="distFiles" />
+			</files>
+		</jstools.removeComments>
+		<jstools.compress destdir="${build.dir}" from="*-debug.js" to="*.js">
+			<files>
+				<fileset refid="distFiles" />
+			</files>
+		</jstools.compress>
+		<jstools.prependHeader file="${bundle.file.debug}" />
+		<jstools.prependHeader file="${bundle.file.min}" />
+	</target>
+
+	<target name="generate-docs">
+		<exec executable="java">
+			<arg line="-jar" />
+			<arg path="${extdoc.home}/ext-doc.jar" />
+			<arg line="-p" />
+			<arg path="${docs.dir}/extdoc-config.xml" />
+			<arg line="-o" />
+			<arg path="${docs.dir}/api" />
+			<arg line="-t" />
+			<arg path="${extdoc.home}/template/ext/template.xml" />
+			<arg line="-verbose" />
+		</exec>
+	</target>
+
+</project>

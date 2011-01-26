@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+
+<!--
+ A set of Ant utilities to manage Javascript projects.
+ Author: Daniel Rochetti
+ Version: 1.0
+-->
+<project name="jstools" basedir=".">
+
+	<property environment="env" />
+	<property name="config.concat.eol" value="crlf" />
+	<property name="config.compress.verbose" value="" />
+	<property name="source.dir" value="${basedir}/src" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="docs.dir" value="${basedir}/docs" />
+	<property name="css.dir" value="${basedir}/resources/css" />
+	<property name="dependencies.dir" value="${build.dir}/deps" />
+	<property name="yuicompressor.lib" value="${dependencies.dir}/yuicompressor.jar" />
+	<property name="build.file.header" value="${dependencies.dir}/header.txt" />
+
+	<target name="aggregate">
+	</target>
+
+	<macrodef name="jstools.generateStructure">
+		<sequential>
+			<mkdir dir="${docs.dir}" />
+		</sequential>
+	</macrodef>
+
+	<!--
+	Task name: jstools.compress
+	Description: Compress a
+	Attributes:
+	  destDir:
+	  from: source file name pattern (see Ant 'Mapper' Task for details)
+	  to: destination file name pattern (see Ant 'Mapper' Task for details)
+	  type: 'js' (default) or 'css'
+	-->
+	<macrodef name="jstools.compress">
+		<attribute name="destDir" />
+		<attribute name="type" default="js" />
+		<attribute name="from" default="*.@{type}" />
+		<attribute name="to" default="*-min.@{type}" />
+		<element name="files" />
+		<sequential>
+			<apply executable="java" dest="@{destDir}">
+				<files />
+				<arg line="-jar" />
+				<arg path="${yuicompressor.lib}" />
+				<srcfile />
+				<arg line="--type @{type}" />
+				<arg line="${config.compress.verbose}" />
+				<arg line="--preserve-semi" />
+				<arg line="-o" />
+				<mapper type="glob" from="@{from}" to="@{to}" />
+				<targetfile />
+			</apply>
+		</sequential>
+	</macrodef>
+
+	<!--
+	Target:
+	Description:
+	Params:
+	  dir:
+	  includes:
+	-->
+	<macrodef name="jstools.removeComments">
+		<element name="files" optional="false" />
+		<sequential>
+			<replaceregexp match="(/\*!)(.*?)(\*/)" replace="" flags="gms">
+				<files />
+			</replaceregexp>
+		</sequential>
+	</macrodef>
+
+	<!--
+	Target:
+	Description:
+	Params:
+	  file:
+	-->
+	<macrodef name="jstools.prependHeader">
+		<attribute name="headerFile" default="${build.file.header}" />
+		<attribute name="file" />
+		<sequential>
+			<echo message="Prepending header '@{headerFile}' to file '@{file}'"></echo>
+			<concat destfile="@{file}.tmp" eol="${config.concat.eol}" fixlastline="true">
+				<fileset file="@{build.file.header}" />
+				<fileset file="@{file}" />
+			</concat>
+			<move tofile="@{file}" file="@{file}.tmp" overwrite="true" verbose="false" />
+			<delete file="@{file}.tmp" failonerror="false" />
+		</sequential>
+	</macrodef>
+
+	<!--
+	Target:
+	Description:
+	Params:
+	  file:
+	-->
+	<macrodef name="jstools.compileScss">
+		<attribute name="destDir" />
+		<attribute name="from" default="*.scss" />
+		<attribute name="to" default="*.css" />
+		<element name="files" />
+		<sequential>
+			<apply executable="sass" dest="@{destDir}" vmlauncher="false">
+				<files />
+				<srcfile />
+				<targetfile />
+				<arg line="--style expanded" />
+				<mapper type="glob" from="@{from}" to="@{to}" />
+			</apply>
+		</sequential>
+	</macrodef>
+
+</project>
