@@ -45,5 +45,24 @@
 			}
 		}
 	});
-	
+
+	// remove the need of success property on submit actions
+	Ext.override(Ext.form.Action, {
+		processResponse : function(response) {
+			this.response = response;
+			if (!response.responseText && !response.responseXML) {
+				return true;
+			}
+			this.result = this.handleResponse(response); 
+			this.result['success'] = (response.status >= 200 && response.status < 300);
+			return this.result;
+		}
+	});
+
+	// apply jnap conventions
+	var coc = Ext.ux.jnap.util.Conventions;
+	if (coc.autoApply) {
+		coc.applyAll();
+	}
+
 })();
