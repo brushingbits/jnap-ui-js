@@ -26,7 +26,7 @@ $theme-base: "jnap-base";
 	font-weight: $weight;
 }
 
-@import "_base", "icons", "box", "button", "carousel", "combo", "core", "date-picker", "dd";
+@import "_base", "icons", "autocomplete", "box", "button", "carousel", "combo", "core", "date-picker", "dd";
 @import "dialog", "editor", "form", "form-extra", "grid", "imagebox", "layout", "list-view", "menu";
 @import "notification-msg", "panel", "progress", "qtips", "rating", "resizable", "slider";
 @import "tabs", "tagcloud", "toolbar", "tree", "upload", "window";
