@@ -121,7 +121,7 @@ Ext.ux.jnap.NotificationMgr = function() {
 		 * @returns
 		 */
 		hideAjaxLoadingMsg : function(conn, response, options) {
-			_ajaxLoadingMsgOwner.pop();
+			_ajaxLoadingMsgOwner.remove(conn);
 			if (_ajaxLoadingMsgOwner.length == 0 &&
 					(_currentAjaxLoadingMsg != null && _currentAjaxLoadingMsg.isVisible())) {
 				_currentAjaxLoadingMsg.hide();
@@ -136,9 +136,8 @@ Ext.ux.jnap.NotificationMgr = function() {
 		registerDefaultLoadingMsgOnAjax : function() {
 			var scope = Ext.ux.jnap.NotificationMgr;
 			Ext.Ajax.on('beforerequest', scope.showAjaxLoadingMsg, scope);
-			var defaultHideOpts = { buffer : 200 };
-			Ext.Ajax.on('requestcomplete', scope.hideAjaxLoadingMsg, scope, defaultHideOpts);
-			Ext.Ajax.on('requestexception', scope.hideAjaxLoadingMsg, scope, defaultHideOpts);
+			Ext.Ajax.on('requestcomplete', scope.hideAjaxLoadingMsg, scope);
+			Ext.Ajax.on('requestexception', scope.hideAjaxLoadingMsg, scope);
 		}
 
 	};

@@ -93,10 +93,12 @@ Ext.ux.jnap.form.FormUtils = function() {
 					});
 					formMethod = 'POST';
 				}
+				src.disable();
 				form.submit({
 					url : opts.url || form.url || formPanel.url,
 					method : formMethod,
 					success : function(form, response) {
+						src.enable();
 						opts.onSuccess.call(form, form, response);
 						if (opts.resetOnSuccess) {
 							form.reset();
@@ -110,6 +112,7 @@ Ext.ux.jnap.form.FormUtils = function() {
 						});
 					},
 					failure : function(form, response) {
+						src.enable();
 						opts.onError.call(form, form, response);
 						var errorMsg = Ext.isFunction(opts.errorMsg)
 								? opts.errorMsg.call(form, response)

@@ -46,6 +46,25 @@ Ext.ux.jnap.util.ExtUtils = function() {
 					+ 'for Ajax (XMLHttpRequest).';
 			}
 			return xhr;
+		},
+
+		/**
+		 * 
+		 */
+		highlightKeyword : function(node, match, cls, deep) {
+			if (node.nodeType != 3) {
+				if (deep) {
+					Ext.each(node.childNodes, function(child) {
+						highlight(child, match, cls, deep);
+					}, this);
+				}
+			} else {
+				Ext.fly(node).replaceWith({
+					tag : 'span',
+					html : node.nodeValue.replace(new RegExp(match, 'gi'),
+							String.format('<span class="{0}">{1}</span>', cls, match))
+				});
+			}
 		}
 
 	};

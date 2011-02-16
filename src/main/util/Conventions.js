@@ -6,15 +6,11 @@ Ext.ns('Ext.ux.jnap.util');
  */
 Ext.ux.jnap.util.Conventions = function() {
 
-	var coc = this;
-
 	return {
 
 		/**
-		 * The application context path. Defaults to ''.
+		 * <code>true</code> to auto apply conventions at lib load time.
 		 */
-		contextPath : '',
-
 		autoApply : true,
 
 		/**
@@ -27,9 +23,15 @@ Ext.ux.jnap.util.Conventions = function() {
 
 		setDefaultDataProperties : function() {
 			Ext.data.JsonReader.prototype.root = 'modelList';
+			Ext.data.JsonReader.prototype.id = 'id';
+			Ext.data.JsonReader.prototype.restful = true;
 		},
 
 		DEFAULT_PAGE_SIZE : 15,
+
+		doAutoLoadWithPaging : function() {
+			return { start : 0, limit : Ext.ux.jnap.util.Conventions.DEFAULT_PAGE_SIZE };
+		},
 
 		setDefaultPagingConfig : function(pageSize) {
 			Ext.PagingToolbar.prototype.pageSize = pageSize;
@@ -37,15 +39,17 @@ Ext.ux.jnap.util.Conventions = function() {
 		},
 
 		setDefaultFormConventions : function() {
-			Ext.form.ComboBox.prototype.queryParam = 'model.id';
+			Ext.form.ComboBox.prototype.queryParam = 'searchQuery';
 		},
 
 		applyAll : function() {
-			coc.enableNamespaceShortcut();
-			coc.setDefaultDataProperties();
-			coc.setDefaultPagingConfig(coc.DEFAULT_PAGE_SIZE);
+			jnapconv.enableNamespaceShortcut();
+			jnapconv.setDefaultDataProperties();
+			jnapconv.setDefaultPagingConfig(jnapconv.DEFAULT_PAGE_SIZE);
 			Ext.ux.jnap.NotificationMgr.registerDefaultLoadingMsgOnAjax();
 		}
 
 	};
 }();
+
+jnapconv = Ext.ux.jnap.util.Conventions;

@@ -112,6 +112,8 @@ Ext.ux.jnap.NotificationMessage = Ext.extend(Ext.BoxComponent, {
 	 * @cfg {String} msg
 	 */
 	msg : '',
+
+	shadow : false,
 	
 	/**
 	 * @cfg {String} title
@@ -161,6 +163,9 @@ Ext.ux.jnap.NotificationMessage = Ext.extend(Ext.BoxComponent, {
 				? this.tpl.insertBefore(position, this._getTplArgs(), true)
 				: this.tpl.append(ct, this._getTplArgs(), true);
 		this.el.setVisibilityMode(Ext.Element.DISPLAY);
+		if (this.shadow) {
+			this.el.addClass('shadow');
+		}
 		if (this.extraCls) {
 			this.el.addClass(this.extraCls);
 		}
