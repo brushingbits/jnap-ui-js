@@ -263,7 +263,7 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 	/**
 	 * @property
 	 */
-	files : undefined,
+	files : new Ext.util.MixedCollection(),
 
 	/**
 	 * @property
@@ -276,8 +276,7 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 	 */
 	addFile : function(file) {
 		var _me = this;
-		var shouldAdd = _me.uploader.fireEvent('fileadded', _me.uploader, _me, file);
-		if (shouldAdd) {
+		if (_me.uploader.fireEvent('fileadded', _me.uploader, _me, file) !== false) {
 			_me.files.add(file);
 			_me.uploader.fireEvent('queuechanged', _me.uploader, _me);
 		}
@@ -289,8 +288,7 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 	 */
 	removeFile : function(file) {
 		var _me = this;
-		var shouldRemove = _me.uploader.fireEvent('fileremoved', _me.uploader, _me, file);
-		if (shouldRemove) {
+		if (_me.uploader.fireEvent('fileremoved', _me.uploader, _me, file) !== false) {
 			_me.files.remove(file);
 			_me.uploader.fireEvent('queuechanged', _me.uploader, _me);
 		}
@@ -387,6 +385,16 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
  * @extends Object
  */
 Ext.ux.jnap.upload.UploadFile = Ext.extend(Object, {
+
+	ref : undefined,
+
+	constructor : function(id, name, size, ref) {
+		this.id = id;
+		this.name = name;
+		this.size = size;
+		this.state = Ext.ux.jnap.upload.UploadStatus.QUEUED;
+		this.ref = ref;
+	},
 
 	/**
 	 * @method getId

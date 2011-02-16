@@ -19,19 +19,20 @@ Ext.ux.jnap.upload.UploadPanel = Ext.extend(Ext.Panel, {
 	 */
 	uploader: undefined,
 
-	// protected
-	initComponent: function(){
-		Ext.ux.jnap.upload.UploadPanel.superclass.initComponent.call(this);
-		if (!this.uploader) {
-			this.uploader = new Ext.ux.jnap.upload.Uploader();
-		}
+	constructor : function(config) {
+		this.uploader = new Ext.ux.jnap.upload.Uploader(config);
 	},
 
-	tbar: {
+	// protected
+	initComponent : function(){
+		Ext.ux.jnap.upload.UploadPanel.superclass.initComponent.call(this);
+	},
+
+	tbar : {
 		
 	},
 
-	items: [
+	items : [
 		new Ext.grid.GridPanel()
 	]
 });

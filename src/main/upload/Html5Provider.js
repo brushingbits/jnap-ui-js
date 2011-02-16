@@ -48,6 +48,11 @@ Ext.ux.jnap.upload.Html5Provider = Ext.extend(Ext.ux.jnap.upload.UploadProvider,
 			delete xhr;
 		}
 		return this._features;
+	},
+
+	onUpload : function(file) {
+		var xhr = new Ext.ux.jnap.upload.Xhr2Upload(this.requestConfig || {});
+		
 	}
 
 });
@@ -96,10 +101,10 @@ Ext.ux.jnap.upload.Xhr2Upload = Ext.extend(Ext.util.Observable, {
 			'uploadabort');
 	},
 
-	upload : function() {
+	upload : function(file) {
 		this.xhr = Ext.ux.jnap.util.ExtUtils.createXhrObject();
 		this.xhr.open('post', this.url, true);
-		var file = null;
+		this.file = file;
 		return this[Ext.isDefined(FileReader) ? '_sendFileUsingReader' : '_sendBinary'].call(this);
 	},
 

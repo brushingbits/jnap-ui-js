@@ -63,13 +63,13 @@ Ext.ux.jnap.upload.UploadProvider = Ext.extend(Ext.util.Observable, {
 	},
 
 	upload : function(file) {
-		this.uploader.fireEvent('uploadstart', file);
-		this.onUpload();
-		this.uploader.fireEvent('uploadfinish', file);
+		if (this.uploader.fireEvent('beforeuploadstart', file) !== false) {
+			this.onUpload.call(this, file);
+		}
 	},
 
-	onUpload : function() {
-		
+	// protected 'abstract', must implement on subclass
+	onUpload : function(file) {
 	}
 
 });
