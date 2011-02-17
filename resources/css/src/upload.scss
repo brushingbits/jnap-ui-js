@@ -1,0 +1,13 @@
+
+.ux-upload-wrap {
+	cursor: pointer;
+	cursor: hand;
+	position: relative;
+	overflow: hidden;
+
+	.ux-upload-input-file {
+		left: 0;
+		position: absolute;
+		top: 0;
+	}
+}
