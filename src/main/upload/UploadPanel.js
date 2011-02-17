@@ -12,29 +12,15 @@ Ext.ns('Ext.ux.jnap.upload');
  * @author Daniel Rochetti
  * @since 1.0
  */
-Ext.ux.jnap.upload.UploadPanel = Ext.extend(Ext.Panel, {
+Ext.ux.jnap.upload.UploadPanel = Ext.extend(Ext.BoxComponent, {
+
+	browseButtonText : 'Choose files...',
 
 	/**
-	 * @cfg {Uploader} uploader
+	 * @cfg {Ext.ux.jnap.upload.Uploader} uploader
 	 */
-	uploader: undefined,
+	uploader : undefined
 
-	constructor : function(config) {
-		this.uploader = new Ext.ux.jnap.upload.Uploader(config);
-	},
-
-	// protected
-	initComponent : function(){
-		Ext.ux.jnap.upload.UploadPanel.superclass.initComponent.call(this);
-	},
-
-	tbar : {
-		
-	},
-
-	items : [
-		new Ext.grid.GridPanel()
-	]
 });
 
 // register the component xtype

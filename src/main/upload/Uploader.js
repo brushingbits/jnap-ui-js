@@ -38,12 +38,18 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 	/**
 	 * @cfg {Boolean} async
 	 */
-	async : true,
+	autoStart : true,
+
+	baseCls : 'ux-upload',
 
 	/**
 	 * @cfg {Number} batchSize
 	 */
-	batchSize : 2,
+	batchSize : 1,
+
+	browseFilesTriggerEl : null,
+
+	dropContainerEl : null,
 
 	/**
 	 * @cfg {Boolean} multiple
@@ -66,6 +72,19 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 	 */
 	url : undefined,
 
+	/**
+	 * @type Ext.ux.jnap.upload.UploadProvider
+	 * The {@link Ext.ux.jnap.upload.UploadProvider} that was successfully initialized.
+	 * This is a read-only 'protected' property and must not be overwritten.
+	 */
+	activeProvider : undefined,
+
+	/**
+	 * @type Ext.ux.jnap.upload.UploadQueue
+	 * The upload file queue.
+	 */
+	queue : undefined,
+
 	lang : {
 		unknownFileSize: 'Unknown'
 	},
@@ -75,6 +94,8 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 		Ext.apply(_me, config || {});
 		var _ns = Ext.ux.jnap.upload; // this class namespace alias
 		_me.addEvents(
+			'beforeuploadstart',
+			'beforeuploadcancel',
 			/**
 			 * @event dialogclose
 			 */
@@ -84,28 +105,23 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 			 */
 			'dialogopen',
 			/**
-			 * @event exception
-			 * Fires if an exception occurs in the Uploader
-			 * @param {Uploader} this
-			 * @param {Number} errorCode
-			 */
-			'exception',
-			/**
 			 * @event filesadded
-			 * Fires when one or more files are added to the upload queue.
-			 * @param {Uploader} this The Uploader reference.
-			 * @param {UploadQueue} queue The UploadQueue
-			 * @param {UploadFile[]} files Files that were added to the queue.
+			 * Fires when one file is added to the upload queue. Return false to cancel the
+			 * adition of the file.
+			 * @param {Uploader} this The uploader reference.
+			 * @param {UploadQueue} queue The upload queue.
+			 * @param {UploadFile} files File that is being added to the queue.
 			 */
-			'filesadded',
+			'fileadded',
 			/**
 			 * @event filesremoved
-			 * Fires when one or more files are removed from the upload queue.
-			 * @param {Uploader} this
-			 * @param {UploadQueue} queue
-			 * @param {UploadFile[]} files
+			 * Fires when one file is removed from the upload queue. Return false to cancel
+			 * file removal.
+			 * @param {Uploader} this The uploader reference.
+			 * @param {UploadQueue} queue The upload queue.
+			 * @param {UploadFile} files File that is being removed from the queue.
 			 */
-			'filesremoved',
+			'fileremoved',
 			/**
 			 * @event initerror
 			 */
@@ -115,13 +131,18 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 			 */
 			'initsuccess',
 			/**
+			 * @event queuechanged
+			 * Fires when one file is successfully added or removed from the queue. Tip: if you
+			 * wanna know if the file was added or removed, check for it's presence in the queue.
+			 * @param {Uploader} this The uploader reference.
+			 * @param {UploadQueue} queue The upload queue.
+			 * @param {UploadFile} files File that changed the queue.
+			 */
+			'queuechanged',
+			/**
 			 * @event uploadcancel
 			 */
 			'uploadcancel',
-			/**
-			 * @event uploadcomplete
-			 */
-			'uploadcomplete',
 			/**
 			 * @event uploaderror
 			 */
@@ -164,54 +185,31 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 			_me.fireEvent('initerror', _me);
 		} else {
 			_me.queue = new _ns.UploadQueue(_me);
+			_me._bindDefaultEvents();
 			_me.fireEvent('initsuccess', _me, _me.activeProvider);
 		}
-	},
-
-	/**
-	 * @type Ext.ux.jnap.upload.UploadProvider
-	 * The {@link Ext.ux.jnap.upload.UploadProvider} that was successfully initialized.
-	 * This is a read-only 'protected' property and must not be overwritten.
-	 */
-	activeProvider : undefined,
-
-	/**
-	 * @type Ext.ux.jnap.upload.UploadQueue
-	 */
-	queue : undefined,
-
-	/**
-	 * Generates an unique ID for a file in the current Uploader queue.
-	 * @return {String} unique ID for a file.
-	 */
-	generateId : function() {
-		
 	},
 
 	openFileDialog : function() {
 		this.activeProvider.openFileDialog();
 	},
 
-	/**
-	 * @method start
-	 */
-	start: function() {
-		this.activeProvider.start();
+	start: function(file) {
+		this.activeProvider.upload(Ext.isString(file) ? this.queue.getFile(file) : file);
 	},
 
-	/**
-	 * @method stop
-	 */
-	stop: function(fileId) {
-		this.activeProvider.stop(fileId);
+	cancel : function(file) {
+		this.activeProvider.cancel(Ext.isString(file) ? this.queue.getFile(file) : file);
 	},
 
-	/**
-	 * @method cancel
-	 */
-	cancel: function(fileId) {
-		this.activeProvider.cancel(fileId);
+	_bindDefaultEvents : function() {
+		this.on('queuechanged', function(uploader, queue, file) {
+			if (queue.contains(file) && this.autoStart && !queue.isUploading()) {
+				this.start(file);
+			}
+		}, this);
 	}
+
 });
 
 Ext.ux.jnap.upload.UploadStatus = {
@@ -278,7 +276,7 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 		var _me = this;
 		if (_me.uploader.fireEvent('fileadded', _me.uploader, _me, file) !== false) {
 			_me.files.add(file);
-			_me.uploader.fireEvent('queuechanged', _me.uploader, _me);
+			_me.uploader.fireEvent('queuechanged', _me.uploader, _me, file);
 		}
 	},
 
@@ -290,8 +288,12 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 		var _me = this;
 		if (_me.uploader.fireEvent('fileremoved', _me.uploader, _me, file) !== false) {
 			_me.files.remove(file);
-			_me.uploader.fireEvent('queuechanged', _me.uploader, _me);
+			_me.uploader.fireEvent('queuechanged', _me.uploader, _me, file);
 		}
+	},
+
+	contains : function(file) {
+		return this.files.contains(file);
 	},
 
 	/**
@@ -362,10 +364,13 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 	 * @return {Boolean}
 	 */
 	isUploading : function() {
-		var result = Ext.partition(this.files, function(file) {
-			return file.getState() === Ext.ux.jnap.upload.UploadStatus.UPLOADING;
-		});
-		return result[0].length > 0;
+//		var result = Ext.partition(this.files, function(file) {
+//			return file.getState() === Ext.ux.jnap.upload.UploadStatus.UPLOADING;
+//		});
+//		return result[0].length > 0;
+		return this.files.find(function(file) {
+				return file.getState() === Ext.ux.jnap.upload.UploadStatus.UPLOADING;
+			}, this) != null;
 	},
 
 	/**
@@ -386,14 +391,14 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
  */
 Ext.ux.jnap.upload.UploadFile = Ext.extend(Object, {
 
-	ref : undefined,
+	nativeRef : undefined,
 
-	constructor : function(id, name, size, ref) {
+	constructor : function(id, name, size, nativeRef) {
 		this.id = id;
 		this.name = name;
 		this.size = size;
 		this.state = Ext.ux.jnap.upload.UploadStatus.QUEUED;
-		this.ref = ref;
+		this.nativeRef = nativeRef;
 	},
 
 	/**

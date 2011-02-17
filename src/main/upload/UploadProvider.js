@@ -26,6 +26,7 @@ Ext.ux.jnap.upload.UploadProvider = Ext.extend(Ext.util.Observable, {
 	browseTrigger : undefined,
 
 	constructor : function(config) {
+		Ext.apply(this, config || {});
 		this.addEvents(
 			/**
 			 * @event initsuccess
@@ -63,13 +64,38 @@ Ext.ux.jnap.upload.UploadProvider = Ext.extend(Ext.util.Observable, {
 	},
 
 	upload : function(file) {
-		if (this.uploader.fireEvent('beforeuploadstart', file) !== false) {
+		if (file.getState() == Ext.ux.jnap.upload.UploadStatus.QUEUED
+				&& this.uploader.fireEvent('beforeuploadstart', file) !== false) {
+			file.setState(Ext.ux.jnap.upload.UploadStatus.UPLOADING);
 			this.onUpload.call(this, file);
+			this.uploader.fireEvent('uploadstart', this.uploader, this, file);
+		}
+	},
+
+	cancel : function(file) {
+		if (this.uploader.fireEvent('beforeuploadcancel', file) !== false) {
+			if (Ext.ux.jnap.upload.UploadStatus.UPLOADING == file.getState()) {
+				this.onCancel.call(this, file);
+			}
+			file.setState(Ext.ux.jnap.upload.UploadStatus.CANCELLED);
+			this.uploader.fireEvent('uploadcancel', this.uploader, this, file);
 		}
 	},
 
 	// protected 'abstract', must implement on subclass
+	onCancel : function(file) {
+	},
+
+	// protected 'abstract', must implement on subclass
 	onUpload : function(file) {
+	},
+
+	// protected 'abstract', must implement on subclass
+	createTriggerElement : function() {
+	},
+
+	// protected 'abstract', must implement on subclass
+	toUploadFile : function(nativeFile) {
 	}
 
 });

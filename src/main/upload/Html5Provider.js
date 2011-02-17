@@ -12,6 +12,8 @@ Ext.ux.jnap.upload.Html5Provider = Ext.extend(Ext.ux.jnap.upload.UploadProvider,
 
 	dropElement : undefined,
 
+	requestPool : new Ext.util.MixedCollection(),
+
 	/**
 	 * @cfg {Object} requestConfig
 	 */
@@ -21,12 +23,13 @@ Ext.ux.jnap.upload.Html5Provider = Ext.extend(Ext.ux.jnap.upload.UploadProvider,
 		fileNameParam : 'fileName'
 	},
 
-	init : function() {
-		Ext.ux.jnap.upload.Html5Provider.superclass.init.call(uploader);
+	init : function(uploader) {
+		Ext.ux.jnap.upload.Html5Provider.superclass.init.call(this, uploader);
 		var xhr = Ext.ux.jnap.util.ExtUtils.createXhrObject();
 		var xhrUploadSupport = !!(xhr.sendAsBinary || xhr.upload);
 		xhr = null;
 		delete xhr;
+		this.createTriggerElement();
 		return xhrUploadSupport;
 	},
 
@@ -51,8 +54,76 @@ Ext.ux.jnap.upload.Html5Provider = Ext.extend(Ext.ux.jnap.upload.UploadProvider,
 	},
 
 	onUpload : function(file) {
-		var xhr = new Ext.ux.jnap.upload.Xhr2Upload(this.requestConfig || {});
-		
+		var xhrup = new Ext.ux.jnap.upload.Xhr2Upload(Ext.apply(this.requestConfig || {}, {
+			url : this.uploader.url
+		}));
+		var eventAlert = function(event) {
+			alert(event.type + ' = ' + event);
+		};
+		xhrup.on('load', eventAlert.createDelegate(this), this);
+		xhrup.on('progress', eventAlert.createDelegate(this), this);
+		xhrup.on('progressabort', eventAlert.createDelegate(this), this);
+		xhrup.on('error', eventAlert.createDelegate(this), this);
+		xhrup.on('loadend', eventAlert.createDelegate(this), this);
+		this.requestPool.add(file.getId(), xhrup);
+		xhrup.upload(file.nativeRef);
+	},
+
+	onCancel : function(file) {
+		var reqpool = this.requestPool;
+		var fileId = file.getId();
+		if (reqpool.containsKey(fileId)) {
+			var xhr = reqpool.get(fileId);
+			xhr.abort();
+			reqpool.removeKey(fileId);
+			xhr = null;
+			delete xhr;
+		}
+	},
+
+	createTriggerElement : function() {
+		var el = this.uploader.browseFilesTriggerEl;
+		var wrap = this._fileInputWrap = el.wrap({
+			cls : 'x-form-field-wrap ' + this.uploader.baseCls + '-wrap'
+		});
+		var input = this._fileInput = wrap.createChild({
+			tag : 'input',
+			type : 'file',
+			cls : this.uploader.baseCls + '-input-file',
+			multiple : !!this.uploader.multiple,
+			size : 1
+		});
+		input.setOpacity(0);
+		input.on({
+			scope : this,
+			'change' : function(evt, inputFile) {
+				var files = inputFile.files || [];
+				for (var i = 0; i < files.length; i++) {
+					this.uploader.queue.addFile(this.toUploadFile(files[i]));
+				}
+			},
+			'mouseenter' : function() {
+				//this.uploader.browseFilesTriggerEl.fireEvent();
+			},
+			'mouseleave' : function() {
+				//alert('mouse leave!');
+			}
+		});
+		//this._doTriggerLayout();
+		//el.on('');
+	},
+
+	toUploadFile : function(nativeFile) {
+		return new Ext.ux.jnap.upload.UploadFile(Ext.id(nativeFile.name),
+			nativeFile.name, nativeFile.fileSize || nativeFile.size, nativeFile);
+	},
+
+	_doTriggerLayout : function() {
+		var el = this.uploader.browseFilesTriggerEl;
+		this._fileInput.setHeight(el.getHeight());
+		this._fileInput.setWidth(el.getWidth());
+		this._fileInputWrap.setHeight(el.getHeight());
+		this._fileInputWrap.setWidth(el.getWidth());
 	}
 
 });
@@ -81,6 +152,10 @@ Ext.ux.jnap.upload.Xhr2Upload = Ext.extend(Ext.util.Observable, {
 
 	xhr : undefined,
 
+	url : 'upload/',
+
+	fileReader : undefined,
+
 	constructor : function(config) {
 		Ext.apply(this, config || {});
 		this.addEvents(
@@ -108,6 +183,10 @@ Ext.ux.jnap.upload.Xhr2Upload = Ext.extend(Ext.util.Observable, {
 		return this[Ext.isDefined(FileReader) ? '_sendFileUsingReader' : '_sendBinary'].call(this);
 	},
 
+	abort : function() {
+		this.xhr.abort();
+	},
+
 	_bindRequestEvents : function() {
 		var allEvents = ['progress', 'progressabort', 'error', 'load', 'loadend'];
 		Ext.each(allEvents, function(eventName, index, eventsArray) {
@@ -124,22 +203,25 @@ Ext.ux.jnap.upload.Xhr2Upload = Ext.extend(Ext.util.Observable, {
 
 	// protected
 	_sendFileUsingReader : function() {
-		this.reader = new FileReader();
-		this.reader.addEventListener('load', this._sendEncodedFile.createDelegate(this), false);
-		this.reader.readAsBinaryString(this.file);
+		this.fileReader = new FileReader();
+		this.fileReader.addEventListener('load', this._sendEncodedFile.createDelegate(this), false);
+		this.fileReader.readAsBinaryString(this.file);
 		return true;
 	},
 
 	// protected
 	_sendEncodedFile : function() {
-		var lf = '\n\r',
+		var lf = '\r\n',
 			boundary = 'html5-upload-' + new Date().getTime(),
 			data = '';
 
 		data += String.format('--{0}{1}Content-Disposition: form-data; name="{2}"; filename="{3}"{1}'
-			+ 'Content-Type:{4}{1}"Content-Transfer-Encoding: base64{1}{1}{5}{1}--{0}--{1}{1}',
+			+ 'Content-Type:{4}{1}Content-Transfer-Encoding: base64{1}{1}{5}{1}--{0}--{1}{1}',
 			boundary, lf, this.fileNameParam, this.file.name,
-			this.file.type, window.btoa(this.reader.result));
+			this.file.type, window.btoa(this.fileReader.result));
+
+		this.xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
+		this.xhr.send(data);
 	},
 
 	// private
