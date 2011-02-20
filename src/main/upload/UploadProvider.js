@@ -23,8 +23,6 @@ Ext.ux.jnap.upload.UploadProvider = Ext.extend(Ext.util.Observable, {
 
 	uploader : undefined,
 
-	browseTrigger : undefined,
-
 	constructor : function(config) {
 		Ext.apply(this, config || {});
 		this.addEvents(
@@ -55,30 +53,31 @@ Ext.ux.jnap.upload.UploadProvider = Ext.extend(Ext.util.Observable, {
 		};
 	},
 
-	addFiles : function(files) {
-		
-	},
-
-	onAddFiles : function(files) {
-		
-	},
-
+	/**
+	 * 
+	 * @param {Ext.ux.jnap.upload.UploadFile} file
+	 */
 	upload : function(file) {
-		if (file.getState() == Ext.ux.jnap.upload.UploadStatus.QUEUED
+		if (file.getStatus() == Ext.ux.jnap.upload.UploadStatus.QUEUED
 				&& this.uploader.fireEvent('beforeuploadstart', file) !== false) {
-			file.setState(Ext.ux.jnap.upload.UploadStatus.UPLOADING);
-			this.onUpload.call(this, file);
+			file.setStatus(Ext.ux.jnap.upload.UploadStatus.UPLOADING);
 			this.uploader.fireEvent('uploadstart', this.uploader, this, file);
+			this.onUpload.call(this, file);
 		}
 	},
 
+	/**
+	 * 
+	 * @param {Ext.ux.jnap.upload.UploadFile} file
+	 */
 	cancel : function(file) {
 		if (this.uploader.fireEvent('beforeuploadcancel', file) !== false) {
-			if (Ext.ux.jnap.upload.UploadStatus.UPLOADING == file.getState()) {
+			if (Ext.ux.jnap.upload.UploadStatus.UPLOADING == file.getStatus()) {
 				this.onCancel.call(this, file);
 			}
-			file.setState(Ext.ux.jnap.upload.UploadStatus.CANCELLED);
+			file.setStatus(Ext.ux.jnap.upload.UploadStatus.CANCELLED);
 			this.uploader.fireEvent('uploadcancel', this.uploader, this, file);
+			this.uploader.fireEvent('uploadfinish', this.uploader, this, file, 299, null);
 		}
 	},
 
@@ -88,10 +87,6 @@ Ext.ux.jnap.upload.UploadProvider = Ext.extend(Ext.util.Observable, {
 
 	// protected 'abstract', must implement on subclass
 	onUpload : function(file) {
-	},
-
-	// protected 'abstract', must implement on subclass
-	createTriggerElement : function() {
 	},
 
 	// protected 'abstract', must implement on subclass

@@ -51,6 +51,8 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 
 	dropContainerEl : null,
 
+	dropHintText : 'Drop files here',
+
 	/**
 	 * @cfg {Boolean} multiple
 	 */
@@ -65,7 +67,7 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 	/**
 	 * 
 	 */
-	requiredFeatures : [],
+	requiredFeatures : ['multipart'],
 
 	/**
 	 * @cfg {String} url (required)
@@ -94,23 +96,20 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 		Ext.apply(_me, config || {});
 		var _ns = Ext.ux.jnap.upload; // this class namespace alias
 		_me.addEvents(
+			'beforefileadd',
+			'beforefileremove',
 			'beforeuploadstart',
 			'beforeuploadcancel',
-			/**
-			 * @event dialogclose
-			 */
-			'dialogclose',
-			/**
-			 * @event dialogopen
-			 */
-			'dialogopen',
+			'browsefilesclick',
+			'browsefilesover',
+			'browsefilesout',
 			/**
 			 * @event filesadded
 			 * Fires when one file is added to the upload queue. Return false to cancel the
 			 * adition of the file.
 			 * @param {Uploader} this The uploader reference.
 			 * @param {UploadQueue} queue The upload queue.
-			 * @param {UploadFile} files File that is being added to the queue.
+			 * @param {UploadFile} file File that is being added to the queue.
 			 */
 			'fileadded',
 			/**
@@ -119,15 +118,20 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 			 * file removal.
 			 * @param {Uploader} this The uploader reference.
 			 * @param {UploadQueue} queue The upload queue.
-			 * @param {UploadFile} files File that is being removed from the queue.
+			 * @param {UploadFile} file File that is being removed from the queue.
 			 */
 			'fileremoved',
 			/**
 			 * @event initerror
+			 * Fires when none of the providers could be sucessfully initiated.
+			 * @param {Uploader} this The uploader reference.
 			 */
 			'initerror',
 			/**
 			 * @event initsuccess
+			 * Fires when one provider is sucessfully initiated.
+			 * @param {Uploader} this The uploader reference.
+			 * @param {UploadProvider} provider The active provider.
 			 */
 			'initsuccess',
 			/**
@@ -144,11 +148,30 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 			 */
 			'uploadcancel',
 			/**
+			 * @event uploadfinish
+			 * Fires when a upload is finished, no matter if it was a successful upload or not. This
+			 * event is fired after 'uploadsuccess' and 'uploaderror'.
+			 * @param {Uploader} this The uploader reference.
+			 * @param {UploadProvider} provider The active upload provider.
+			 * @param {UploadFile} file File that was uploaded.
+			 * @param {Number} status The response status code.
+			 * @param {Mixed} response The response, either an Object (String format) or an XML.
+			 */
+			'uploadfinish',
+			/**
 			 * @event uploaderror
 			 */
 			'uploaderror',
 			/**
 			 * @event uploadprogress
+			 * Fires multiple time during a file upload. Fired only by providers that supports
+			 * progress during upload.
+			 * @param {Uploader} this The uploader reference.
+			 * @param {UploadProvider} provider The upload provider.
+			 * @param {UploadFile} file File that is being uploaded.
+			 * @param {Number} loadedSize The already uploaded size.
+			 * @param {Number} loadedPercentage The uploaded percentage (between 0 and 1).
+			 * @param {Number} totalSize The file total size.
 			 */
 			'uploadprogress',
 			/**
@@ -173,7 +196,7 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 				var supportedFeatures = Ext.partition(_me.requiredFeatures || [], function(feat) {
 					return providerFeatures[feat];
 				});
-				// are there any required feature missing? 
+				// are there any required feature missing?
 				if (supportedFeatures[1].length === 0) {
 					_me.activeProvider = currentProvider;
 					break;
@@ -190,11 +213,7 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 		}
 	},
 
-	openFileDialog : function() {
-		this.activeProvider.openFileDialog();
-	},
-
-	start: function(file) {
+	start : function(file) {
 		this.activeProvider.upload(Ext.isString(file) ? this.queue.getFile(file) : file);
 	},
 
@@ -202,12 +221,36 @@ Ext.ux.jnap.upload.Uploader = Ext.extend(Ext.util.Observable, {
 		this.activeProvider.cancel(Ext.isString(file) ? this.queue.getFile(file) : file);
 	},
 
+	_onFileAdd : function(uploader, queue, file) {
+		if (this.autoStart && (queue.getUploadingCount() < this.batchSize)) {
+			this.start(file);
+		}
+	},
+
+	_onUploadFinish : function(uploader, provider, file) {
+		var queue = this.queue;
+		if (this.autoStart && (queue.getUploadingCount() < this.batchSize && queue.isPending())) {
+			this.start(queue.getNextInQueue());
+		}
+	},
+
+	_onUploadSuccess : function(uploader, provider, file, res) {
+		file.setStatus(Ext.ux.jnap.upload.UploadStatus.DONE);
+	},
+
+	_onUploadError : function(uploader, provider, file, res) {
+		file.setStatus(Ext.ux.jnap.upload.UploadStatus.FAILED);
+	},
+
 	_bindDefaultEvents : function() {
-		this.on('queuechanged', function(uploader, queue, file) {
-			if (queue.contains(file) && this.autoStart && !queue.isUploading()) {
-				this.start(file);
-			}
-		}, this);
+		this.on('fileadded', this._onFileAdd, this);
+		this.on('uploadsuccess', this._onUploadSuccess, this);
+		this.on('uploaderror', this._onUploadError, this);
+		this.on('uploadfinish', this._onUploadFinish, this);
+	},
+
+	destroy : function() {
+		// TODO implement
 	}
 
 });
@@ -274,8 +317,9 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 	 */
 	addFile : function(file) {
 		var _me = this;
-		if (_me.uploader.fireEvent('fileadded', _me.uploader, _me, file) !== false) {
+		if (_me.uploader.fireEvent('beforefileadd', _me.uploader, _me, file) !== false) {
 			_me.files.add(file);
+			_me.uploader.fireEvent('fileadded', _me.uploader, _me, file);
 			_me.uploader.fireEvent('queuechanged', _me.uploader, _me, file);
 		}
 	},
@@ -286,8 +330,9 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 	 */
 	removeFile : function(file) {
 		var _me = this;
-		if (_me.uploader.fireEvent('fileremoved', _me.uploader, _me, file) !== false) {
+		if (_me.uploader.fireEvent('beforefileremove', _me.uploader, _me, file) !== false) {
 			_me.files.remove(file);
+			_me.uploader.fireEvent('fileremoved', _me.uploader, _me, file);
 			_me.uploader.fireEvent('queuechanged', _me.uploader, _me, file);
 		}
 	},
@@ -305,6 +350,10 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 		allFiles.each(function(file, i, length) {
 			_me.removeFile(file);
 		});
+	},
+
+	countByStatus : function(status) {
+		return this.files.filter('status', status).length;
 	},
 
 	/**
@@ -325,6 +374,10 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 		return this.file.get(id);
 	},
 
+	getLength : function() {
+		return this.files.length;
+	},
+
 	getTotalSize : function() {
 		var totalSize = 0;
 		this.files.each(function(file, i, length) {
@@ -337,13 +390,19 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 		return Ext.util.Format.fileSize(this.getTotalSize());
 	},
 
+	getNextInQueue : function() {
+		return this.files.find(function(file) {
+			return file.getStatus() == Ext.ux.jnap.upload.UploadStatus.QUEUED;
+		});
+	},
+
 	/**
 	 * @method isDone
 	 * @return {Boolean}
 	 */
 	isDone : function() {
 		var result = this.files.find(function(file) {
-			return file.getState() != Ext.ux.jnap.upload.UploadStatus.DONE;
+			return file.getStatus() != Ext.ux.jnap.upload.UploadStatus.DONE;
 		});
 		return result == null;
 	},
@@ -354,9 +413,15 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 	 */
 	hasErrors : function() {
 		var result = Ext.partition(this.files, function(file) {
-			return file.getState() === Ext.ux.jnap.upload.UploadStatus.FAILED;
+			return file.getStatus() === Ext.ux.jnap.upload.UploadStatus.FAILED;
 		});
 		return result[0].length > 0;
+	},
+
+	getUploadingCount : function() {
+		return this.files.filterBy(function(file) {
+			return file.getStatus() === Ext.ux.jnap.upload.UploadStatus.UPLOADING;
+		}, this).getCount();
 	},
 
 	/**
@@ -364,12 +429,8 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 	 * @return {Boolean}
 	 */
 	isUploading : function() {
-//		var result = Ext.partition(this.files, function(file) {
-//			return file.getState() === Ext.ux.jnap.upload.UploadStatus.UPLOADING;
-//		});
-//		return result[0].length > 0;
 		return this.files.find(function(file) {
-				return file.getState() === Ext.ux.jnap.upload.UploadStatus.UPLOADING;
+				return file.getStatus() === Ext.ux.jnap.upload.UploadStatus.UPLOADING;
 			}, this) != null;
 	},
 
@@ -378,10 +439,9 @@ Ext.ux.jnap.upload.UploadQueue = Ext.extend(Object, {
 	 * @return {Boolean}
 	 */
 	isPending : function() {
-		var result = Ext.partition(this.files, function(file) {
-			return file.getState() === Ext.ux.jnap.upload.UploadStatus.QUEUED;
-		});
-		return result[0].length > 0;
+		return this.files.find(function(file) {
+				return file.getStatus() === Ext.ux.jnap.upload.UploadStatus.QUEUED;
+			}, this) != null;
 	}
 });
 
@@ -397,7 +457,7 @@ Ext.ux.jnap.upload.UploadFile = Ext.extend(Object, {
 		this.id = id;
 		this.name = name;
 		this.size = size;
-		this.state = Ext.ux.jnap.upload.UploadStatus.QUEUED;
+		this.status = Ext.ux.jnap.upload.UploadStatus.QUEUED;
 		this.nativeRef = nativeRef;
 	},
 
@@ -447,18 +507,18 @@ Ext.ux.jnap.upload.UploadFile = Ext.extend(Object, {
 	},
 
 	/**
-	 * @method getFormattedSize
+	 * @method getStatus
 	 * @return {Number}
 	 */
-	getState : function() {
-		return this.state;
+	getStatus : function() {
+		return this.status;
 	},
 
 	/**
-	 * @method getFormattedSize
+	 * @method setStatus
 	 * @return {Number}
 	 */
-	setState : function(state) {
-		this.state = state;
+	setStatus : function(status) {
+		this.status = status;
 	}
 });

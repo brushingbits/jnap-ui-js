@@ -26,45 +26,58 @@ Ext.ux.jnap.upload.Html5Provider = Ext.extend(Ext.ux.jnap.upload.UploadProvider,
 	init : function(uploader) {
 		Ext.ux.jnap.upload.Html5Provider.superclass.init.call(this, uploader);
 		var xhr = Ext.ux.jnap.util.ExtUtils.createXhrObject();
-		var xhrUploadSupport = !!(xhr.sendAsBinary || xhr.upload);
+		var xhrUploadSupport = !!(xhr.upload || xhr.sendAsBinary);
+		if (xhrUploadSupport) {
+			this._loadFeatures(xhr);
+			if (this.uploader.dropContainerEl && this.getFeatures().dnd) {
+				this._configDropContainer();
+			}
+		}
 		xhr = null;
 		delete xhr;
-		this.createTriggerElement();
+		this._createInputOverlay.defer(100, this);
 		return xhrUploadSupport;
 	},
 
 	getFeatures : function() {
-		if (!this._features) {
-			this._features = Ext.ux.jnap.upload.Html5Provider.superclass.getFeatures.call();
-			var xhr = Ext.ux.jnap.util.ExtUtils.createXhrObject();
-			var hasFileApiSupport = !!File;
-
-			Ext.apply(this._features, {
-				chunks : false, // TODO chunk support in html5?
-				dnd : !!(hasFileApiSupport && File.prototype.slice) || window.mozInnerScreenX !== undefined,
-				multipart : !!(hasFileApiSupport && File.prototype.getAsDataURL),
-				progress : !!xhr.upload
-			});
-
-			// delete temp xhr object
-			xhr = null;
-			delete xhr;
-		}
 		return this._features;
+	},
+
+	_loadFeatures : function(xhr) {
+		var hasFileApiSupport = !!File;
+
+		this._features = Ext.ux.jnap.upload.Html5Provider.superclass.getFeatures.call(this);
+		Ext.apply(this._features, {
+			chunks : false,
+			dnd : !!(hasFileApiSupport && File.prototype.slice) || window.mozInnerScreenX !== undefined,
+			multipart : !!(hasFileApiSupport && File.prototype.getAsDataURL),
+			progress : !!xhr.upload
+		});		
 	},
 
 	onUpload : function(file) {
 		var xhrup = new Ext.ux.jnap.upload.Xhr2Upload(Ext.apply(this.requestConfig || {}, {
 			url : this.uploader.url
 		}));
-		var eventAlert = function(event) {
-			alert(event.type + ' = ' + event);
-		};
-		xhrup.on('load', eventAlert.createDelegate(this), this);
-		xhrup.on('progress', eventAlert.createDelegate(this), this);
-		xhrup.on('progressabort', eventAlert.createDelegate(this), this);
-		xhrup.on('error', eventAlert.createDelegate(this), this);
-		xhrup.on('loadend', eventAlert.createDelegate(this), this);
+		xhrup.on('uploadprogress', function(event) {
+			this.uploader.fireEvent('uploadprogress', this.uploader, this, file,
+				event.loaded, (event.loaded / event.total), event.total);
+		}, this);
+		xhrup.on('load', function(event) {
+			var xhr = xhrup.xhr;
+			var status = xhr.status;
+			var response = xhr.responseText || xhr.responseXml;
+			if (status >= 200 && status < 300) {
+				this.uploader.fireEvent('uploadsuccess', this.uploader, this, file, response);
+			} else {
+				this.uploader.fireEvent('uploaderror', this.uploader, this, file, response);
+			}
+			// TODO clean requests
+			/*var req = this.requestPool.removeKey(file.getId());
+			req = null;
+			delete req;*/
+			this.uploader.fireEvent('uploadfinish', this.uploader, this, file, status, response);
+		}, this);
 		this.requestPool.add(file.getId(), xhrup);
 		xhrup.upload(file.nativeRef);
 	},
@@ -81,7 +94,12 @@ Ext.ux.jnap.upload.Html5Provider = Ext.extend(Ext.ux.jnap.upload.UploadProvider,
 		}
 	},
 
-	createTriggerElement : function() {
+	toUploadFile : function(nativeFile) {
+		return new Ext.ux.jnap.upload.UploadFile(Ext.id(nativeFile.name),
+			nativeFile.name, nativeFile.fileSize || nativeFile.size, nativeFile);
+	},
+
+	_createInputOverlay : function() {
 		var el = this.uploader.browseFilesTriggerEl;
 		var wrap = this._fileInputWrap = el.wrap({
 			cls : 'x-form-field-wrap ' + this.uploader.baseCls + '-wrap'
@@ -97,37 +115,68 @@ Ext.ux.jnap.upload.Html5Provider = Ext.extend(Ext.ux.jnap.upload.UploadProvider,
 		input.on({
 			scope : this,
 			'change' : function(evt, inputFile) {
-				var files = inputFile.files || [];
-				for (var i = 0; i < files.length; i++) {
-					this.uploader.queue.addFile(this.toUploadFile(files[i]));
-				}
+				this._addSelectedFiles(inputFile.files || []);
 			},
-			'mouseenter' : function() {
-				//this.uploader.browseFilesTriggerEl.fireEvent();
+			'mouseenter' : function(event, el, opt) {
+				this.uploader.fireEvent('browsefilesover', event, el);
 			},
-			'mouseleave' : function() {
-				//alert('mouse leave!');
+			'mouseleave' : function(event, el, opt) {
+				this.uploader.fireEvent('browsefilesout', event, el);
+			},
+			'click' : function(event, el, opt) {
+				this.uploader.fireEvent('browsefilesclick', event, el);
 			}
 		});
-		//this._doTriggerLayout();
-		//el.on('');
 	},
 
-	toUploadFile : function(nativeFile) {
-		return new Ext.ux.jnap.upload.UploadFile(Ext.id(nativeFile.name),
-			nativeFile.name, nativeFile.fileSize || nativeFile.size, nativeFile);
+	_addSelectedFiles : function(files) {
+		for (var i = 0; i < files.length; i++) {
+			this.uploader.queue.addFile(this.toUploadFile(files[i]));
+		}
 	},
 
-	_doTriggerLayout : function() {
-		var el = this.uploader.browseFilesTriggerEl;
-		this._fileInput.setHeight(el.getHeight());
-		this._fileInput.setWidth(el.getWidth());
-		this._fileInputWrap.setHeight(el.getHeight());
-		this._fileInputWrap.setWidth(el.getWidth());
+	_resizeDropContainer : function(parent) {
+		var m = this.dropElement.getMargins();
+		this.dropElement.setSize(parent.getWidth() - (m.left + m.right),
+			parent.getHeight() - (m.top + m.bottom));
+	},
+
+	_configDropContainer : function() {
+		var dropContainer = Ext.get(this.uploader.dropContainerEl);
+		var drop = this.dropElement = dropContainer.createChild({
+			cls : this.uploader.baseCls + '-drop-container',
+			html : String.format('<p>{0}</p>', this.uploader.dropHintText)
+		});
+		drop.setVisibilityMode(Ext.Element.VISIBILITY);
+		this._resizeDropContainer(dropContainer);
+		dropContainer.on('resize', function(event, el, obj) {
+			this._resizeDropContainer(Ext.get(el));
+		}, this);
+		var body = Ext.getBody();
+		body.on('dragenter', function(event) {
+			this.dropElement.setVisible(true);
+		}, this);
+		body.on('dragleave', function(event) {
+			this.dropElement.setVisible(false);
+		}, this);
+		drop.on('dragover', function(event) {
+			event.browserEvent.dataTransfer.dropEffect = 'move';
+			event.preventDefault();
+		}, this);
+		drop.on('drop', function(event) {
+			event.preventDefault();
+			this._addSelectedFiles(event.browserEvent.dataTransfer.files || []);
+			this.dropElement.setVisible(false);
+		}, this);
 	}
 
 });
 
+/**
+ * 
+ * @class Ext.ux.jnap.upload.Xhr2Upload
+ * @extends Ext.util.Observable
+ */
 Ext.ux.jnap.upload.Xhr2Upload = Ext.extend(Ext.util.Observable, {
 
 	/**
@@ -159,25 +208,17 @@ Ext.ux.jnap.upload.Xhr2Upload = Ext.extend(Ext.util.Observable, {
 	constructor : function(config) {
 		Ext.apply(this, config || {});
 		this.addEvents(
-			/**
-			 * @event load
-			 */
 			'load',
-			/**
-			 * @event loadstart
-			 */
 			'loadstart',
-			/**
-			 * @event loadend
-			 */
 			'loadend',
-			'loaderror',
-			'uploadprogress',
-			'uploadabort');
+			'error',
+			'progress',
+			'progressabort');
 	},
 
 	upload : function(file) {
 		this.xhr = Ext.ux.jnap.util.ExtUtils.createXhrObject();
+		this._bindEvents();
 		this.xhr.open('post', this.url, true);
 		this.file = file;
 		return this[Ext.isDefined(FileReader) ? '_sendFileUsingReader' : '_sendBinary'].call(this);
@@ -185,13 +226,6 @@ Ext.ux.jnap.upload.Xhr2Upload = Ext.extend(Ext.util.Observable, {
 
 	abort : function() {
 		this.xhr.abort();
-	},
-
-	_bindRequestEvents : function() {
-		var allEvents = ['progress', 'progressabort', 'error', 'load', 'loadend'];
-		Ext.each(allEvents, function(eventName, index, eventsArray) {
-			this.xhr.addEventListener(eventName, this._delegateEvent.createDelegate(this), false);
-		}, this);
 	},
 
 	_sendBinary : function() {
@@ -204,29 +238,48 @@ Ext.ux.jnap.upload.Xhr2Upload = Ext.extend(Ext.util.Observable, {
 	// protected
 	_sendFileUsingReader : function() {
 		this.fileReader = new FileReader();
-		this.fileReader.addEventListener('load', this._sendEncodedFile.createDelegate(this), false);
 		this.fileReader.readAsBinaryString(this.file);
+		this.fileReader['onload'] = this._sendMultipartRequest.createDelegate(this);
 		return true;
 	},
 
 	// protected
-	_sendEncodedFile : function() {
+	_sendMultipartRequest : function() {
 		var lf = '\r\n',
-			boundary = 'html5-upload-' + new Date().getTime(),
-			data = '';
+			boundary = 'jnap-ui-html5-upload-' + new Date().getTime(),
+			blob = '';
 
-		data += String.format('--{0}{1}Content-Disposition: form-data; name="{2}"; filename="{3}"{1}'
+		// The RFC2388 blob (http://www.ietf.org/rfc/rfc2388.txt)
+		blob += String.format('--{0}{1}Content-Disposition: form-data; name="{2}"; filename="{3}"{1}'
 			+ 'Content-Type:{4}{1}Content-Transfer-Encoding: base64{1}{1}{5}{1}--{0}--{1}{1}',
 			boundary, lf, this.fileNameParam, this.file.name,
 			this.file.type, window.btoa(this.fileReader.result));
 
 		this.xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=' + boundary);
-		this.xhr.send(data);
+		this.xhr.send(blob);
+//		this.xhr.sendAsBinary ? this.xhr.sendAsBinary(blob) : this.xhr.send(blob);
+	},
+
+	_readBinaryFile : function() {
+		return this.file.getAsBinary ? this.file.getAsBinary() : window.btoa(this.fileReader.result);
+	},
+
+	_bindEvents : function() {
+		Ext.each(['loadstart', 'load', 'loadend', 'progress', 'progressabort', 'error'],
+			function(eventName, index, events) {
+				this.xhr.addEventListener(eventName, this._delegateEvent.createDelegate(this), false);
+				this.xhr.upload.addEventListener(eventName, this._delegateUploadEvent.createDelegate(this), false);
+		}, this);
 	},
 
 	// private
 	_delegateEvent : function(event) {
 		this.fireEvent(event.type, event);
+	},
+
+	// private
+	_delegateUploadEvent : function(event) {
+		this.fireEvent('upload' + event.type, event);
 	}
 
 });
